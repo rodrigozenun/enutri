@@ -1,0 +1,749 @@
+<div ng-show="loggedIn" ng-cloak>
+    <div layout="column" ng-cloak class="md-inline-form">
+        <div ng-show="showConsent">
+            <md-content layout-padding>
+                <md-card>
+                    <h3> {{'CONSENT_MESSAGE' | translate}} </h3>
+                    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                        <md-button class="md-raised md-primary" ng-click="showConsentForm()"> {{'CONSENT_HEADING' | translate}} </md-button>
+                    </section>
+                </md-card>
+            </md-content>
+        </div>
+
+        <div ng-show="showScreening">
+            <md-content layout-gt-sm="row" layout-padding >
+                <md-card>
+                <form name="screeningForm" novalidate>
+                    <div ng-show="showPersonalInfo">
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block">
+                                <label>{{'SCREENING_FIRSTNAME' | translate}}{{favoriteCookie}}</label>
+                                <input required name="userFirstName" ng-model="user.firstname">
+                                <div ng-messages="screeningForm.userFirstName.$error">
+                                    <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-xs>
+                                <label>{{'SCREENING_SURNAME' | translate}}</label>
+                                <input required name="userSurname" ng-model="user.surname">
+                                <div ng-messages="screeningForm.userSurname.$error">
+                                    <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+
+                        <div layout-gt-xs="row">
+                            <md-input-container class="md-block">
+                                <label>{{'SCREENING_AGE' | translate}}</label>
+                                <input required type="number" step="any" name="userAge" ng-model="user.age" min="18" max="120" />
+                                <div ng-messages="screeningForm.userAge.$error">
+                                    <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                                    <div ng-message="min">{{'SCREENING_AGE_RANGE' | translate}}</div>
+                                    <div ng-message="max">{{'SCREENING_AGE_RANGE' | translate}}</div>
+                                </div>
+                            </md-input-container>
+
+                           <!-- <md-input-container class="md-block">
+                                <label>Education</label>
+                                <md-select name="type"  ng-model="user.education" required>
+                                    <md-option value="lessSecondary">Less than Secondary School</md-option>
+                                    <md-option value="Secondary">Secondary School graduate</md-option>
+                                    <md-option value="College">Vocational Training/College</md-option>
+                                    <md-option value="Bachelor">Bachelor Degree</md-option>
+                                    <md-option value="PostGraduate">Post Graduate</md-option>
+                                </md-select>
+                            </md-input-container>-->
+
+                            <md-input-container class="md-block">
+                                <label>{{'SCREENING_EDUCATION' | translate}}</label>
+                                <md-select name="userEducation"  ng-model="user.education" ng-model-options="{trackBy: '$value.id'}" required>
+                                    <md-option ng-repeat="levelEducation in mc.education[mc.selectedLanguage]" ng-value="levelEducation">{{levelEducation.label}}</md-option>
+                                </md-select>
+                                <div ng-messages="screeningForm.userEducation.$error">
+                                    <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                                </div>
+                            </md-input-container>
+
+                        </br>
+                            <!--<md-input-container class="md-block" flex-gt-xs>
+                                <label>{{'SCREENING_DOB' | translate}}</label>
+                                <input required type="number" step="any" name="user.bdateday" min="1" max="31" ng-model="user.bdateday" />
+                                <div ng-messages="screeningForm.bdateday.$error">
+                                    <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                                    <div ng-message="min">{{'SCREENING_DOB_RANGE' | translate}}</div>
+                                    <div ng-message="max">{{'SCREENING_DOB_RANGE' | translate}}</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block" flex-gt-xs>
+                                <label>{{'SCREENING_MOB' | translate}}</label>
+                                <md-select ng-model="user.bdatemonth" ng-model-options="{trackBy: '$value.id'}">
+                                    <md-option ng-value="month" ng-repeat="month in mc.months[mc.selectedLanguage]">
+                                        {{month.label}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+
+                            <md-input-container class="md-block" flex-gt-xs>
+                                <label>{{'SCREENING_YOB' | translate}}</label>
+                                <input required type="number" step="any" name="user.bdateyear" min="1900" max="2000" ng-model="user.bdateyear" />
+                                <div ng-messages="screeningForm.bdateyear.$error">
+                                    <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                                    <div ng-message="min">{{'SCREENING_YOB' | translate}}</div>
+                                    <div ng-message="max">{{'SCREENING_YOB' | translate}}</div>
+                                </div>
+                            </md-input-container>-->
+                        </div>
+
+
+
+                        <div layout-gt-xs="row">
+                            <!--<md-input-container class="md-block">
+                                <label>{{'SCREENING_WEIGHT' | translate}}</label>
+                                <input required type="number" step="any" name="uWeight" ng-model="user.weight" min="40" max="200" />
+                                <div ng-messages="screeningForm.uWeight.$error">
+                                    <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                                    <div ng-message="min">{{'SCREENING_WEIGHT_ERROR' | translate}}</div>
+                                    <div ng-message="max">{{'SCREENING_WEIGHT_ERROR' | translate}}</div>
+                                </div>
+                            </md-input-container>-->
+                            <md-input-container class="md-block">
+                                <label>Height</label>
+                                <md-select name="type" ng-model="heightUnit" required>
+                                    <md-option value="feetInches">feet</md-option>
+                                    <md-option value="cm">cm</md-option>
+                                </md-select>
+                            </md-input-container>
+
+                            <md-input-container class="md-block" ng-show="heightUnit == 'cm'">
+                                <label>{{'SCREENING_HEIGHT' | translate}}</label>
+                                <input required type="number" step="any" name="uHeight" ng-model="height" min="120" max="250" />
+                                <div ng-messages="screeningForm.uHeight.$error">
+                                    <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                                    <div ng-message="min">{{'SCREENING_HEIGHT_ERROR' | translate}}</div>
+                                    <div ng-message="max">{{'SCREENING_HEIGHT_ERROR' | translate}}</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block" ng-show="heightUnit == 'feetInches'">
+                                <label>{{'SCREENING_HEIGHT_FEET' | translate}}</label>
+                                <input required type="number" step="any" name="uHeightFeet" ng-model="heightFeet" min="4" max="7" />
+                                <div ng-messages="screeningForm.uHeightFeet.$error">
+                                    <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                                    <div ng-message="min">{{'SCREENING_HEIGHT_FEET_ERROR' | translate}}</div>
+                                    <div ng-message="max">{{'SCREENING_HEIGHT_FEET_ERROR' | translate}}</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container class="md-block" ng-show="heightUnit == 'feetInches'">
+                                <label>{{'SCREENING_HEIGHT_INCHES' | translate}}</label>
+                                <input required type="number" step="any" name="uHeightInches" ng-model="heightInches" min="0" max="11" />
+                                <div ng-messages="screeningForm.uHeightInches.$error">
+                                    <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                                    <div ng-message="min">{{'SCREENING_HEIGHT_INCHES_ERROR' | translate}}</div>
+                                    <div ng-message="max">{{'SCREENING_HEIGHT_INCHES_ERROR' | translate}}</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <!--<md-input-container class="md-block" flex-gt-xs>
+                            <label>{{'SCREENING_OCCUPATION' | translate}}</label>
+                            <input required name="userOccupation" ng-model="user.occupation">
+                            <div ng-messages="screeningForm.userOccupation.$error">
+                                <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                            </div>
+                        </md-input-container>-->
+
+                        <md-input-container class="md-block">
+                            <label>{{'SCREENING_RECRUITMENT' | translate}}</label>
+                            <md-select name="userRecruitment"  ng-model="user.recruitment" ng-model-options="{trackBy: '$value.id'}" required>
+                                <md-option ng-repeat="recruitment in mc.recruitment[mc.selectedLanguage]" ng-value="recruitment">{{recruitment.label}}</md-option>
+                            </md-select>
+                            <div ng-messages="screeningForm.userRecruitment.$error">
+                                <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                            </div>
+                        </md-input-container>
+
+                        </br>
+                        <md-radio-group ng-model="user.gender" ng-required="true">
+                            <md-radio-button class="md-primary" name="userGender"  value="male" ng-required="true"/> {{'SCREENING_MALE' | translate}}</md-radio-button>
+                            <md-radio-button class="md-primary" name="userGender"  value="female" ng-required="true"/> {{'SCREENING_FEMALE' | translate}}</md-radio-button>
+                        </md-radio-group>
+                        <span ng-show="screeningForm.$submitted">
+                            <span class="error">{{'SCREENING_REQUIRED' | translate}}</span>
+                        </span>
+
+
+
+                        </br></br>
+                        <md-button type="submit" class="md-raised md-primary" ng-click="screeningForm.$valid && savePersonalInformation()"> {{'CONTINUE' | translate}} </md-button>
+                    </div>
+
+                    <div ng-show="showOtherInfo">
+                        <!--<b>{{'SCREENING_EAT' | translate}}</b> </br>
+                        <md-checkbox class="md-primary" ng-model="user.breakfast" aria-label="Breakfast">
+                            {{'SCREENING_BREAKFAST' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.threeMealsDay" aria-label="Three Meals a day">
+                            {{'SCREENING_THREEMEALSDAY' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.snacksmeals" aria-label="Snacks Between Meals">
+                            {{'SCREENING_SNACKS' | translate}}
+                        </md-checkbox>
+                        </br>-->
+                        <b>{{'SCREENING_CONDITIONS' | translate}}</b> </br>
+                        <md-checkbox class="md-primary" ng-model="user.lactose" aria-label="Lactose intolerance?">
+                            {{'SCREENING_LACTOSE' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.foodallergy" ng-change="savePromptScreening('foodallergyDesc',user.foodallergy)" aria-label="Any other food allergy?">
+                            {{'SCREENING_ALLERGY' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.diabetes" aria-label="Diabetes?">
+                            {{'SCREENING_DIABETES' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.methabolicdisorder" ng-change="savePromptScreening('methabolicdisorderDesc',user.methabolicdisorder)" aria-label="Any metabolic disorder?">
+                            {{'SCREENING_METABOLIC' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.illnesses" ng-change="savePromptScreening('illnessesDesc',user.illnesses)" aria-label="Any other conditions or illnesses?">
+                            {{'SCREENING_ILLNESSES' | translate}}
+                        </md-checkbox>
+                        </br>
+
+
+                        </br>
+                        <b>{{'SCREENING_OTHER' | translate}}</b> </br>
+                        <md-checkbox class="md-primary" ng-model="user.notgoodhealth" ng-change="savePromptScreening('notgoodhealthDesc',user.notgoodhealth)" aria-label="I don't consider myself in good health condition">
+                            {{'SCREENING_NOTGOODHEALTH' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.vegan" aria-label="I am vegan">
+                            {{'SCREENING_VEGAN' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.dietaryreq" ng-change="savePromptScreening('dietaryreqDesc',user.dietaryreq)" aria-label="Do you have any other special dietary requirements?">
+                            {{'SCREENING_DIETREQ' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.medication" ng-change="savePromptScreening('medicationDesc',user.medication)" aria-label="I am currently taking any prescription medication">
+                            {{'SCREENING_MEDICATION' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.medicalinformation" ng-change="savePromptScreening('medicalinformationDesc',user.medicalinformation)" aria-label="Any other medical information you think may be of relevance?">
+                            {{'SCREENING_MEDICALINFO' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.pregnant" aria-label="Pregnant or Lactating?">
+                            {{'SCREENING_PREGNANT' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.livinguk" aria-label="I do not live in the UK">
+                            {{'SCREENING_LIVINGUK' | translate}}
+                        </md-checkbox>
+                        </br>
+                        <md-checkbox class="md-primary" ng-model="user.consultation" aria-label="I am receiving face-to-face services">
+                            {{'SCREENING_CONSULTATION' | translate}}
+                        </md-checkbox>
+
+
+                        </br></br>
+                        <md-button type="submit" class="md-raised md-primary" ng-click="screeningForm.$valid && saveOtherInformation()">  {{'CONTINUE' | translate}} </md-button>
+                    </div>
+                </form>
+                </md-card>
+            </md-content>
+        </div>
+
+        <md-content layout-padding layout="row" layout-align="center center" style="min-height:500px" ng-show="showScreeningWaiting">
+            <md-card>
+                <h3 class="md-title">{{'MESSAGE_THANKYOU' | translate}}</h3>
+                <p>{{'MESSAGE_SCREENING_WAITING' | translate}}</p>
+                <br>
+            </md-card>
+        </md-content>
+
+        <md-content layout-padding layout="row" layout-align="center center" style="min-height:500px" ng-show="showScreeningRejected">
+            <md-card>
+                <h3 class="md-title">{{'MESSAGE_THANKYOU' | translate}}</h3>
+                <p>{{'MESSAGE_SCREENING_REJECTED' | translate}}</p>
+                <br>
+            </md-card>
+        </md-content>
+
+    </div>
+
+    <div ng-show="showPreFFQ">
+        <md-content layout-padding layout="row" layout-align="center center" style="min-height:500px;" ng-show="showWeight">
+            <md-card>
+                <h2 class="md-title">{{'PREFFQ_WEIGHT_TITLE' | translate}}</h2>
+                <md-input-container class="md-block" flex="50">
+                    <label>Unit</label>
+                    <md-select name="type" ng-model="weightUnit" required>
+                        <md-option value="kg">kg</md-option>
+                        <md-option value="stones">stones</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" ng-show="weightUnit=='kg'">
+                    <label> {{'PREFFQ_CURRENT_WEIGHT' | translate}}</label>
+                    <input required type="number" step="any" name="currentWeight" ng-model="currentWeight" min="40" max="200" />
+                    <div ng-messages="preFFQForm.currentWeight.$error">
+                        <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                        <div ng-message="min">{{'SCREENING_REQUIRED' | translate}}</div>
+                        <div ng-message="max">{{'SCREENING_REQUIRED' | translate}}</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block" ng-show="weightUnit=='stones'">
+                    <label> {{'PREFFQ_CURRENT_WEIGHT_STONES' | translate}}</label>
+                    <input required type="number" step="any" name="currentWeightStones" ng-model="currentWeightStones" min="6" max="30" />
+                    <div ng-messages="preFFQForm.currentWeight.$error">
+                        <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block" ng-show="weightUnit=='stones'">
+                    <label> {{'PREFFQ_CURRENT_WEIGHT_POUNDS' | translate}}</label>
+                    <input required type="number" step="any" name="currentWeightPounds" ng-model="currentWeightPounds" min="0" max="13" />
+                    <div ng-messages="preFFQForm.currentWeight.$error">
+                        <div ng-message="required">{{'SCREENING_REQUIRED' | translate}}</div>
+                    </div>
+                </md-input-container>
+                <br/><br/>
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <md-button type="submit" class="md-raised md-primary" ng-click="saveWeight(FFQId)"> {{'CONTINUE' | translate}} </md-button>
+                </section>
+                <br/><br/>
+            </md-card>
+        </md-content>
+        <md-content layout-padding layout="row" layout-align="center center" style="min-height:500px" ng-show="showBaeckeInstructions">
+            <md-card>
+                <h2 class="md-title"> {{'MESSAGE_BAECKE' | translate}}</h2>
+                <p> {{'MESSAGE_BAECKE_INSTRUCTIONS' | translate}} </p>
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <md-button ng-click="startBaecke()" class="md-raised md-primary" aria-label="Start Physical Activity">Physical Activity</md-button>
+                </section>
+                <br>
+            </md-card>
+        </md-content>
+        <md-content layout-padding ng-show="showBaecke">
+            <md-card >
+                <div ng-show="showBaeckeQuestions">
+                    <h3>{{mc.baeckeQuestions["en_UK"][currentBaeckeQuestionId].value}}</h3>
+                </div>
+                <div ng-show="showBaeckeQuestion1">
+                    <md-grid-list
+                            md-cols-gt-md="1" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="baeckeAnswer1 in mc.baeckeAnswers1[mc.selectedLanguage]">
+                                <md-button align="left" ng-click="saveBaecke(baeckeAnswer1.id,currentBaeckeQuestionId, FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer1.value}}</md-button> {{baeckeAnswer1.description}}
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showBaeckeQuestions2to4">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="baeckeAnswer2 in mc.baeckeAnswers2to4[mc.selectedLanguage]">
+                            <md-button ng-click="saveBaecke(baeckeAnswer2.id,currentBaeckeQuestionId, FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer2.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showBaeckeQuestion5">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="baeckeAnswer5 in mc.baeckeAnswers5and12to15[mc.selectedLanguage]">
+                            <md-button ng-click="saveBaecke(baeckeAnswer5.id,currentBaeckeQuestionId, FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer5.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showBaeckeQuestions6to7">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="baeckeAnswer6 in mc.baeckeAnswers6to7and11[mc.selectedLanguage]">
+                            <md-button ng-click="saveBaecke(baeckeAnswer6.id,currentBaeckeQuestionId, FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer6.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showBaeckeQuestion8">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="baeckeAnswer8 in mc.baeckeAnswers8[mc.selectedLanguage]">
+                            <md-button ng-click="saveBaecke(baeckeAnswer8.id,currentBaeckeQuestionId, FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer8.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showBaeckeQuestion9">
+                    <div ng-show="showBaeckeQuestion9a">
+                        <md-grid-list
+                                md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                                md-row-height-gt-md="50" md-row-height="40"
+                                md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                            <md-grid-tile ng-repeat="baeckeAnswer9 in mc.baeckeAnswers9ab[mc.selectedLanguage]">
+                                <md-button ng-click="saveBaecke(baeckeAnswer9.id,currentBaeckeQuestionId, FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer9.value}}</md-button>
+                            </md-grid-tile>
+                        </md-grid-list>
+                    </div>
+                    <div ng-show="showBaeckeQuestion9a1">
+                        <h3>{{mc.baeckeQuestions9ab["en_UK"][0].value}}</h3>
+                        <md-grid-list
+                                md-cols-gt-md="1" md-cols="1" md-cols-md="1"
+                                md-row-height-gt-md="50" md-row-height="40"
+                                md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                            <md-grid-tile ng-repeat="baeckeAnswer9a1 in mc.baeckeAnswers9a1[mc.selectedLanguage]">
+                                <md-button ng-click="saveBaecke(baeckeAnswer9a1.id,'9a1', FFQId, baeckeAnswer9a1.factor)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer9a1.value}}</md-button>{{baeckeAnswer9a1.description}}
+                            </md-grid-tile>
+                        </md-grid-list>
+                    </div>
+                    <div ng-show="showBaeckeQuestion9a2">
+                        <h3>{{mc.baeckeQuestions9ab["en_UK"][1].value}} </h3>
+                        <md-grid-list
+                                md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                                md-row-height-gt-md="50" md-row-height="40"
+                                md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                            <md-grid-tile ng-repeat="baeckeAnswer9a2 in mc.baeckeAnswers9a2[mc.selectedLanguage]">
+                                <md-button ng-click="saveBaecke(baeckeAnswer9a2.id,'9a2', FFQId, baeckeAnswer9a2.factor)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer9a2.value}}</md-button>
+                            </md-grid-tile>
+                        </md-grid-list>
+                    </div>
+                    <div ng-show="showBaeckeQuestion9a3">
+                        <h3>{{mc.baeckeQuestions9ab["en_UK"][2].value}} </h3>
+                        <md-grid-list
+                                md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                                md-row-height-gt-md="50" md-row-height="40"
+                                md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                            <md-grid-tile ng-repeat="baeckeAnswer9a3 in mc.baeckeAnswers9a3[mc.selectedLanguage]">
+                                <md-button ng-click="saveBaecke(baeckeAnswer9a3.id,'9a3', FFQId, baeckeAnswer9a3.factor)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer9a3.value}}</md-button>
+                            </md-grid-tile>
+                        </md-grid-list>
+                    </div>
+                    <div ng-show="showBaeckeQuestion9b">
+                        <h3>{{mc.baeckeQuestions9ab["en_UK"][3].value}}</h3>
+                        <md-grid-list
+                                md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                                md-row-height-gt-md="50" md-row-height="40"
+                                md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                            <md-grid-tile ng-repeat="baeckeAnswer9b in mc.baeckeAnswers9ab[mc.selectedLanguage]">
+                                <md-button ng-click="saveBaecke(baeckeAnswer9b.id,'9b', FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer9b.value}}</md-button>
+                            </md-grid-tile>
+                        </md-grid-list>
+                    </div>
+                    <div ng-show="showBaeckeQuestion9b1">
+                        <h3>{{mc.baeckeQuestions9ab["en_UK"][4].value}}</h3>
+                        <md-grid-list
+                                md-cols-gt-md="1" md-cols="1" md-cols-md="1"
+                                md-row-height-gt-md="50" md-row-height="40"
+                                md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                            <md-grid-tile ng-repeat="baeckeAnswer9b1 in mc.baeckeAnswers9a1[mc.selectedLanguage]">
+                                <md-button ng-click="saveBaecke(baeckeAnswer9b1.id,'9b1', FFQId, baeckeAnswer9b1.factor)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer9b1.value}}</md-button>{{baeckeAnswer9b1.description}}
+                            </md-grid-tile>
+                        </md-grid-list>
+                    </div>
+                    <div ng-show="showBaeckeQuestion9b2">
+                        <h3>{{mc.baeckeQuestions9ab["en_UK"][5].value}}</h3>
+                        <md-grid-list
+                                md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                                md-row-height-gt-md="50" md-row-height="40"
+                                md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                            <md-grid-tile ng-repeat="baeckeAnswer9b2 in mc.baeckeAnswers9a2[mc.selectedLanguage]">
+                                <md-button ng-click="saveBaecke(baeckeAnswer9b2.id,'9b2', FFQId, baeckeAnswer9b2.factor)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer9b2.value}}</md-button>
+                            </md-grid-tile>
+                        </md-grid-list>
+                    </div>
+                    <div ng-show="showBaeckeQuestion9b3">
+                        <h3>{{mc.baeckeQuestions9ab["en_UK"][6].value}}</h3>
+                        <md-grid-list
+                                md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                                md-row-height-gt-md="50" md-row-height="40"
+                                md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                            <md-grid-tile ng-repeat="baeckeAnswer9b3 in mc.baeckeAnswers9a3[mc.selectedLanguage]">
+                                <md-button ng-click="saveBaecke(baeckeAnswer9b3.id,'9b3', FFQId, baeckeAnswer9b3.factor)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer9b3.value}}</md-button>
+                            </md-grid-tile>
+                        </md-grid-list>
+                    </div>
+                </div>
+
+                <div ng-show="showBaeckeQuestion10">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="baeckeAnswer10 in mc.baeckeAnswers10[mc.selectedLanguage]">
+                            <md-button ng-click="saveBaecke(baeckeAnswer10.id,currentBaeckeQuestionId, FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer10.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showBaeckeQuestion11">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="baeckeAnswer11 in mc.baeckeAnswers6to7and11[mc.selectedLanguage]">
+                            <md-button ng-click="saveBaecke(baeckeAnswer11.id,currentBaeckeQuestionId, FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer11.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showBaeckeQuestions12to15">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="baeckeAnswer12 in mc.baeckeAnswers5and12to15[mc.selectedLanguage]">
+                            <md-button ng-click="saveBaecke(baeckeAnswer12.id,currentBaeckeQuestionId, FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer12.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showBaeckeQuestion16">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="baeckeAnswer16 in mc.baeckeAnswers16[mc.selectedLanguage]">
+                            <md-button ng-click="saveBaecke(baeckeAnswer16.id,currentBaeckeQuestionId, FFQId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{baeckeAnswer16.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+
+            </md-card>
+        </md-content>
+        <div>
+            <md-button ng-show="showBaeckeBottomLeft" ng-click="previousBaeckeQuestion(currentBaeckeQuestionId)" aria-label="menu" class="md-fab md-fab-bottom-left md-primary">
+                <md-icon md-svg-src="assets/svg/ic_chevron_left_white_24px.svg"></md-icon>
+            </md-button>
+
+        </div>
+    </div>
+
+    <div ng-show="showFFQ">
+        <md-content layout-padding layout="row" layout-align="center center" style="min-height:500px" ng-show="showFFQInstructions">
+            <md-card>
+                <h2 class="md-title"> {{'MESSAGE_THANKYOU' | translate}}</h2>
+                <p> {{'MESSAGE_FFQ_INSTRUCTIONS_1' | translate}}</p>
+                <h4> {{'MESSAGE_FFQ_INSTRUCTIONS_2' | translate}}</h4>
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <md-button ng-click="startFFQ()" class="md-raised md-primary" aria-label="Start FFQ">Diet Questionnaire</md-button>
+                </section>
+                <br>
+            </md-card>
+        </md-content>
+        <md-content layout-padding ng-hide="showFFQInstructions">
+            <md-card>
+                <div>
+                    <md-button ng-show="showBottomRight" class="md-fab md-fab-top-right" ng-disabled="true">
+                        {{currentFoodItem/foodsList.length*100| number:0}}%
+                    </md-button>
+                </div>
+                    <div layout-align="left start">
+                        <h3>{{foodsList[currentFoodItem].foodname}}</br>{{foodsList[currentFoodItem].foodexample}}&nbsp</h3></br>
+
+                        <!--<md-grid-list
+                                      md-cols-gt-md="3" md-cols="2" md-cols-md="3"
+                                      md-row-height-gt-md="50" md-row-height="40"
+                                      md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
+                            <md-grid-tile ng-repeat="freq in mc.frequencies">
+                                <md-button class="btnfrequency" ng-click="selectFrequency(freq.en_UK,freq.freqDay,currentFoodItem)" ng-class="{'md-raised': true, 'md-primary': freq.en_UK === freqSelected}" aria-label="Select Frequency">{{freq[mc.selectedLanguage]}}</md-button>
+                            </md-grid-tile>
+                        </md-grid-list>-->
+
+                        <md-grid-list show-xs hide-gt-xs
+                                md-cols-gt-md="3" md-cols="2" md-cols-md="3"
+                                md-row-height-gt-md="50" md-row-height="40"
+                                md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
+                            <md-grid-tile ng-repeat="freq in mc.frequencies">
+                                <md-button class="btnfrequencySmall" ng-click="selectFrequency(freq.en_UK,freq.freqDay,currentFoodItem)"  ng-class="{'md-raised': true, 'md-primary': freq.en_UK === freqSelected}" aria-label="Select Frequency" >{{freq[mc.selectedLanguage]}}</md-button>
+                            </md-grid-tile>
+
+                        </md-grid-list>
+
+                        </br>
+                        <md-grid-list hide-xs
+                                      md-cols="4"
+                                      md-row-height="50"
+                                      md-gutter="16px">
+                            <md-grid-tile ng-repeat="freq in mc.frequenciesLine1">
+                                <md-button class="btnfrequency" ng-click="selectFrequency(freq.en_UK,freq.freqDay,currentFoodItem)" ng-class="{'md-raised': true, 'md-primary': freq.en_UK === freqSelected}" aria-label="Select Frequency">{{freq[mc.selectedLanguage]}}</md-button>
+                            </md-grid-tile>
+                        </md-grid-list>
+                        <div hide-xs></br></br></div>
+
+
+                        <md-grid-list hide-xs
+                                      md-cols="4"
+                                      md-row-height="50"
+                                      md-gutter="16px">
+                            <md-grid-tile ng-repeat="freq in mc.frequenciesLine2">
+                                <md-button class="btnfrequency" ng-click="selectFrequency(freq.en_UK,freq.freqDay,currentFoodItem)" ng-class="{'md-raised': true, 'md-primary': freq.en_UK === freqSelected}" aria-label="Select Frequency">{{freq[mc.selectedLanguage]}}</md-button>
+                            </md-grid-tile>
+                        </md-grid-list>
+                        <div hide-xs></br></br></div>
+
+                        <md-grid-list hide-xs
+                                      md-cols="4"
+                                      md-row-height="50"
+                                      md-gutter="16px">
+                            <md-grid-tile ng-repeat="freq in mc.frequenciesLine3">
+                                <md-button class="btnfrequency" ng-click="selectFrequency(freq.en_UK,freq.freqDay,currentFoodItem)" ng-class="{'md-raised': true, 'md-primary': freq.en_UK === freqSelected}" aria-label="Select Frequency">{{freq[mc.selectedLanguage]}}</md-button>
+                            </md-grid-tile>
+                        </md-grid-list>
+
+
+                        <div hide-xs></br></br></div>
+                        <h3 ng-show="showPortionSelection">{{'FFQ_PORTION' | translate}} <md-button ng-class="{'md-raised': true,'md-primary': true}" ng-click="selectFrequency(freqSelected,freqDay,currentFoodItem)" aria-label="Select Portion Size" ng-cloak> {{portionSelected}} </md-button></h3>
+
+                    </div>
+            </md-card>
+        </md-content>
+
+        <div>
+            <md-button ng-show="showBottomLeft" ng-click="previousFoodItem(FFQId, currentFoodItem)" aria-label="menu" class="md-fab md-fab-bottom-left md-primary">
+                <md-icon md-svg-src="assets/svg/ic_chevron_left_white_24px.svg"></md-icon>
+            </md-button>
+
+            <md-button ng-show="showBottomRight" ng-click="nextFoodItem(reportID, FFQId, currentFoodItem)"aria-label="menu" class="md-fab md-fab-bottom-right md-primary">
+                <md-icon md-svg-src="assets/svg/ic_chevron_right_white_24px.svg"></md-icon>
+            </md-button>
+        </div>
+
+        <!--Preload next Images -->
+        <div ng-repeat="portion in mc.portionSizes" ng-show=false>
+            <img ng-src="assets/images/foods/food-{{portion}}-{{currentFoodItem+1}}.jpg" height="150" width="225">
+            <img ng-src="assets/images/foods/food-{{portion}}-{{currentFoodItem+2}}.jpg" height="150" width="225">
+        </div>
+
+    </div>
+
+    <md-content layout-padding  layout="row" layout-align="center center" style="min-height:500px" ng-show="showMessage">
+        <md-card>
+            <h2 class="md-title"> {{'MESSAGE_THANKYOU' | translate}}</h2>
+            <p> {{ffqMessage | translate}} {{nextFfqDateEvent}}</p>
+            <div title="Add to Calendar" class="addeventatc" ng-show="addEvent">
+                Click to add a reminder to your calendar
+                <span class="start">{{nextFfqDateEvent}} 11:00 AM</span>
+                <span class="end">{{nextFfqDateEvent}} 11:30 AM</span>
+                <span class="timezone">Europe/London</span>
+                <span class="title">EatWellUK</span>
+                <span class="description">Online questionnaire<br>Only 20 minutes <br>Please go to our website eatwelluk.org</a></span>
+                <span class="location">eatwelluk.org</span>
+                <span class="organizer">University of Reading</span>
+                <span class="organizer_email">eatwelluk@reading.ac.uk</span>
+                <span class="all_day_event">false</span>
+                <span class="date_format">DD/MM/YYYY</span>
+                <span class="client">xxxxxxxxxxxxx</span>
+            </div>
+            </br>
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-button class="md-raised md-primary" ng-href="#/reports">{{'MESSAGE_REPORT_BUTTON' | translate}} </md-button>
+            </section>
+        </md-card>
+        <br>
+    </md-content>
+
+    <div ng-show="showSurvey">
+         <md-content layout-padding layout="row" layout-align="center center" style="min-height:500px" ng-show="showSurveyInstructions">
+            <md-card>
+                <h2 class="md-title"> {{'MESSAGE_THANKYOU' | translate}}</h2>
+               <p> {{'MESSAGE_SURVEY_INSTRUCTIONS' | translate}}</p>
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <md-button ng-click="startSurvey()" class="md-raised md-primary" aria-label="Start Survey">Start Survey</md-button>
+                </section>
+                <br>
+            </md-card>
+         </md-content>
+        <md-content layout-padding>
+            <md-card ng-show="showSurveyQuestions">
+                <h3>{{mc.surveyQuestions["en_UK"][currentQuestionId].value}}</h3>
+                <div ng-show="showFirstQuestions">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="surveyAnswer in mc.surveyAnswers[mc.selectedLanguage]">
+                            <md-button ng-click="saveSurvey(surveyAnswer.id,currentQuestionId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{surveyAnswer.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showOverallQuestion">
+                    <md-grid-list
+                            md-cols-gt-md="1" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="surveyOverallAnswer in mc.surveyOverallAnswers[mc.selectedLanguage]">
+                            <md-button ng-click="saveSurvey(surveyOverallAnswer.id, currentQuestionId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{surveyOverallAnswer.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showDifficultiesQuestion">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="surveyDifficultiesAnswer in mc.surveyDifficultiesAnswers[mc.selectedLanguage]">
+                            <md-button ng-click="saveSurvey(surveyDifficultiesAnswer.id, currentQuestionId)" ng-class="{'md-raised': true, 'md-primary': surveyAnswer === answerSelected}" aria-label="Select Answer">{{surveyDifficultiesAnswer.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+            </md-card>
+        </md-content>
+        <div>
+            <md-button ng-show="showBottomLeft" ng-click="previousSurveyQuestion(currentQuestionId)" aria-label="menu" class="md-fab md-fab-bottom-left md-primary">
+                <md-icon md-svg-src="assets/svg/ic_chevron_left_white_24px.svg"></md-icon>
+            </md-button>
+
+        </div>
+    </div>
+
+    <div ng-show="showFeedback">
+        <md-content layout-padding layout="row" layout-align="center center" style="min-height:500px" ng-show="showFeedbackInstructions">
+            <md-card>
+                <h2 class="md-title"> {{'MESSAGE_THANKYOU' | translate}}</h2>
+                <p> {{'MESSAGE_FEEDBACK_INSTRUCTIONS' | translate}}</p>
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <md-button ng-click="startFeedback()" class="md-raised md-primary" aria-label="Start Feedback">Start Feedback</md-button>
+                </section>
+                <br>
+            </md-card>
+        </md-content>
+        <md-content layout-padding>
+            <md-card ng-show="showFeedbackQuestions">
+                <h3>{{mc.feedbackQuestions["en_UK"][currentFeedbackId].value}} </h3>
+                <div ng-show="showFirstFeedbackQuestions">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="8px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="feedbackAnswer in mc.likertAnswers[mc.selectedLanguage]">
+                            <md-button ng-click="saveFeedback(feedbackAnswer.id,currentFeedbackId)" ng-class="{'md-raised': true}" aria-label="Select Answer">{{feedbackAnswer.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+                <div ng-show="showFinalFeedbackQuestions">
+                    <md-grid-list
+                            md-cols-gt-md="5" md-cols="1" md-cols-md="1"
+                            md-row-height-gt-md="50" md-row-height="40"
+                            md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
+                        <md-grid-tile ng-repeat="yesNoAnswer in mc.yesNoAnswers[mc.selectedLanguage]">
+                            <md-button ng-click="saveFeedback(yesNoAnswer.id, currentFeedbackId)" ng-class="{'md-raised': true, 'md-primary': feedbackAnswer === answerSelected}" aria-label="Select Answer">{{yesNoAnswer.value}}</md-button>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+            </md-card>
+        </md-content>
+        <div>
+            <md-button ng-show="showBottomLeft" ng-click="previousFeedbackQuestion(currentFeedbackId)" aria-label="menu" class="md-fab md-fab-bottom-left md-primary">
+                <md-icon md-svg-src="assets/svg/ic_chevron_left_white_24px.svg"></md-icon>
+            </md-button>
+
+        </div>
+    </div>
+</div>

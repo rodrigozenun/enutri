@@ -1,0 +1,33 @@
+<div layout="column" ng-cloak>
+    <md-content layout-padding>
+        <md-card>
+            <h2 class="md-title">{{'ACCOUNT_HEADING' | translate}}</h2>
+            <p>{{profile.email}}</p>
+            <form>
+                <md-input-container class="md-block">
+                    <label>{{'ACCOUNT_OLD_PASSWORD' | translate}}</label>
+                    <input type="password" ng-keypress="clear()" ng-model="oldpass"/>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>{{'ACCOUNT_NEW_PASSWORD' | translate}}</label>
+                    <input type="password" ng-keypress="clear()" ng-model="newpass"/>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>{{'ACCOUNT_CONFIRM_PASSWORD' | translate}}</label>
+                    <input type="password" ng-keypress="clear()" ng-model="confirm"/>
+                </md-input-container>
+
+                    <md-button ng-click="changePassword(oldpass, newpass, confirm)" class="md-raised md-primary">{{'ACCOUNT_CHANGE_PASSWORD' | translate}}</md-button>
+
+                    <p class="error" ng-show="err">{{err}}</p>
+                    <p class="good" ng-show="msg">{{msg}}</p>
+
+                <br>
+                <md-button ng-click="logout()" class="md-raised md-warn">{{'ACCOUNT_LOGOUT' | translate}}</md-button>
+                <br>
+
+            </form>
+        </md-card>
+    </md-content>
+</div>

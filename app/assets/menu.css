@@ -1,0 +1,428 @@
+/* Toolbar area */
+
+.menu {
+    background-color: transparent;
+    border: none;
+    height: 38px;
+    margin: 16px;
+    width: 36px;
+}
+
+
+md-toolbar h3 {
+    margin: auto;
+    font-weight: 500;
+}
+
+
+
+/* Sidenav area */
+
+md-list-item > button {
+    width:100%;
+    text-align:left !important;
+    height:70px;;
+}
+
+md-list-item > a {
+    width:100%;
+    text-align:left !important;
+    height:70px;;
+}
+
+
+md-icon.avatar {
+    margin-right: 20px;
+}
+
+md-list .md-button.selected {
+    color: #03a9f4;
+}
+
+
+button#main {
+    margin-bottom: 10px;
+}
+
+md-sidenav > md-toolbar {
+    height:64px;
+}
+
+md-list-item {
+    overflow: hidden;
+}
+
+/* Primary content area */
+
+
+#content  {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+#content .md-button.contact {
+    background-color: transparent;
+    border: none;
+    width: 48px;
+    height: 48px;
+    margin: 8px auto 16px 0;
+    position: absolute;
+    top: 10px;
+    right: 40px;
+}
+
+#content md-icon.avatar {
+    margin-top: 10px;
+}
+
+#content .md-button.contact > md-icon {
+    fill:black;
+    width:36px;
+    height:36px;
+}
+
+
+#content .md-button.contact:active > md-icon {
+    background-color: #dadada;
+    border-radius: 75%;
+    padding:4px;
+    transition: all 100ms ease-out 30ms;
+}
+
+
+/* Utils */
+
+/* Typography support coming in 0.8.0 */
+
+.avatar {
+    position:relative;
+    width: 54px;
+    height: 54px;
+    /*border: 1px solid #ddd;*/
+    border-radius: 50%;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0px;
+    vertical-align: middle;
+
+}
+
+
+md-bottom-sheet  md-icon {
+    margin-right:20px;
+}
+
+span.name {
+    font-weight: bold;
+    font-size:1.1em;
+    padding-left:5px;
+}
+
+.error {
+    color: #C62828;
+    font-size:12px;
+}
+
+
+.md-inline-form md-checkbox {
+    margin: 8px 0 8px; }
+
+/* Angular Table - MD Table */
+
+html,
+body,
+md-content {
+    background-color: #f5f5f5 !important;
+    -moz-osx-font-smoothing: grayscale;
+}
+a {
+    text-decoration: none;
+    color: rgb(33,150,243);
+}
+a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+input::-webkit-input-placeholder {
+    color: rgba(0, 0, 0, 0.26);
+    font-weight: 300;
+}
+input::-moz-placeholder {
+    color: rgba(0, 0, 0, 0.26);
+    font-weight: 300;
+}
+input:-ms-input-placeholder {
+    color: rgba(0, 0, 0, 0.26);
+    font-weight: 300;
+}
+input::input-placeholder {
+    color: rgba(0, 0, 0, 0.26);
+    font-weight: 300;
+}
+.material-icons {
+    position: static;
+    margin: 0;
+}
+md-toolbar,
+footer-content {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+footer {
+    -webkit-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+}
+footer > footer-content {
+    min-height: 64px;
+    padding: 0 16px 16px;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 14px;
+}
+footer > footer-content > div {
+    margin-top: 16px;
+}
+footer > footer-content > div:not(:last-child) {
+    margin-right: 24px;
+}
+footer > footer-content > div > *:not(span) + *:not(span) {
+    margin-left: 24px;
+}
+md-card {
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    position: relative;
+}
+md-toolbar.md-table-toolbar.ng-hide {
+    display: none;
+}
+md-toolbar.md-table-toolbar.alternate .md-toolbar-tools {
+    color: #1e88e5;
+    font-size: 16px;
+    background-color: #e3f2fd;
+}
+md-toolbar.md-table-toolbar form {
+    margin-left: 16px;
+}
+md-toolbar.md-table-toolbar form > input {
+    width: 100%;
+    margin: 0;
+    border: none;
+    color: rgba(0, 0, 0, 0.87);
+}
+md-toolbar.md-table-toolbar form > input:focus {
+    outline: none;
+}
+md-dialog > md-dialog-content.md-dialog-content {
+    padding-bottom: 0;
+}
+md-dialog > md-dialog-content > p {
+    margin: 16px 0;
+    color: rgba(0, 0, 0, 0.54);
+    line-height: 22px;
+}
+md-dialog > md-dialog-content > p.md-warn {
+    color: #f44336;
+}
+md-dialog > md-dialog-content > form:last-child > md-input-container:last-child {
+    padding-bottom: 0;
+}
+md-dialog > .md-actions > .md-button {
+    min-width: 60px;
+}
+md-dialog[delete-dialog] {
+    max-width: 300px;
+}
+md-dialog[add-item-dialog] > md-dialog-content > form > .input-row {
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+md-dialog[add-item-dialog] > md-dialog-content > form > .input-row > md-input-container {
+    min-width: 120px;
+}
+
+.md-accent {
+    /*color: rgb(255,82,82);*/
+    color: #C62828;
+}
+
+.btnfrequency {
+    text-transform: initial;
+}
+
+.btnfrequencySmall {
+    text-transform: initial;
+    font-size: 12px;
+    margin: 0px 0px;
+}
+
+
+/* Menu icon */
+.avatar {
+    width: 34px;
+    height: 34px;
+}
+md-icon.avatar {
+     margin-right: 3px;
+}
+
+.md-button.md-default-theme:not([disabled]):hover, .md-button:not([disabled]):hover {
+     background-color: rgba(158,158,158,0.2);
+}
+
+/* Report - NVD3 bullet */
+.nvd3.nv-bullet { font: 10px sans-serif; }
+.nvd3.nv-bullet .nv-measure {fill: #ffffff; fill-opacity: 0; }
+.nvd3.nv-bullet .nv-measure:hover { fill-opacity: 0; }
+.nvd3.nv-bullet .nv-marker { stroke: #fff; stroke-width: 2px; }
+.nvd3.nv-bullet .nv-markerTriangle { stroke: #666666; fill: #666666; stroke-width: 3.5px; }
+.nvd3.nv-bullet .nv-tick line { stroke: #666; stroke-width: .8px; }
+.nvd3.nv-bullet .nv-range.nv-s0 { fill: #ff0; }
+.nvd3.nv-bullet .nv-range.nv-s1 { fill: #fff; }
+.nvd3.nv-bullet .nv-range.nv-s2 { fill: #00f; }
+.nvd3.nv-bullet .nv-title { font-size: 14px; font-weight: bold; }
+.nvd3.nv-bullet .nv-subtitle { fill: #999; }
+.nvd3.nv-bullet .nv-range {
+    fill: #ffffff;
+    fill-opacity: .7;
+}
+.nvd3.nv-bullet .nv-range:hover {
+    fill: #ffffff;
+    fill-opacity: .7;
+}
+.element.style{
+    fill: #ffffff;
+}
+.nvd3 text {
+    font-size: 8px;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+#weightID .nvd3.nv-bullet .nv-range.nv-rangeMin { fill: #f9d962; fill-opacity: 1; }
+#weightID .nvd3.nv-bullet .nv-range.nv-rangeAvg { fill: #75cb82; fill-opacity: 1; }
+#weightID .nvd3.nv-bullet .nv-range.nv-rangeMax { fill: #f9d962; fill-opacity: 1; }
+#activityID .nvd3.nv-bullet .nv-range.nv-rangeMin { fill: #f38d67; fill-opacity: 1; }
+#activityID .nvd3.nv-bullet .nv-range.nv-rangeAvg { fill: #f9d962; fill-opacity: 1;}
+#activityID .nvd3.nv-bullet .nv-range.nv-rangeMax { fill: #75cb82; fill-opacity: 1; }
+.rect.nv-measure {
+    fill: #ffffff;
+    fill-opacity: .7;
+}
+.rect.nv-measure:hover  {
+    fill: #ffffff;
+    fill-opacity: .7;
+}
+.redClass{
+    color: #f38d67;
+    font-weight: bold;
+}
+.yellowClass{
+    color: #f9d962;
+    font-weight: bold;
+}
+.greenClass{
+    color: #75cb82;
+    font-weight: bold;
+}
+
+
+/* Report - Your progress */
+table.md-table td.md-cell {
+    border-top: 0px rgba(0, 0, 0, 0);
+}
+table.md-table thead.md-head > tr.md-row {
+    height: 40px;
+}
+table.md-table th.md-column {
+    vertical-align: bottom;
+}
+
+md-progress-linear.md-progress-theme.negative ._md-container {
+    background-color: rgb(256,256,256);
+}
+md-progress-linear.md-progress-theme.md-warn.negative ._md-container {
+    background-color: rgb(256,256,256);
+}
+md-progress-linear.md-progress-theme.md-accent.negative ._md-container {
+    background-color: rgb(256,256,256);
+}
+md-progress-linear.md-progress-theme.positive ._md-container {
+    background-color: #EEEEEE
+}
+md-progress-linear.md-progress-theme.md-warn.positive ._md-container {
+    background-color: #EEEEEE
+}
+md-progress-linear.md-progress-theme.md-accent.positive ._md-container {
+    background-color: #EEEEEE
+}
+
+/* Report - Advice for you */
+md-list-item ._md-list-item-inner>md-icon:first-child:not(.md-avatar-icon), md-list-item>md-icon:first-child:not(.md-avatar-icon) {
+    margin-right: 10px;
+}
+
+md-card md-card-title md-card-title-text .md-subhead {
+    margin-left: 30px;
+}
+
+#md-subhead-home {
+    margin-left: 0px;
+}
+
+md-icon.advice {
+    vertical-align: text-top;
+}
+
+/* Help Tab */
+md-content.md-padding {
+     background-color: #ffffff !important;
+}
+
+/* Report - Help icons */
+.material-icons.help {
+    font-size: 18px;
+}
+
+table.md-table th.md-column md-icon:not(:first-child) {
+    margin-left: 3px;
+    vertical-align: top;
+    font-size: 14px;
+}
+table.md-table th.md-column md-icon.zoom {
+    font-size: 22px !important;
+}
+table.md-table th.md-column {
+    font-size: 14px;
+}
+
+/* Report - Progress table */
+table.md-table.progressbar:not(.md-row-select) td.md-cell:first-child, table.md-table:not(.md-row-select) th.md-column:first-child.progressbar {
+    width: 90%;
+}
+
+md-list-item>md-icon:first-child:not(.md-avatar-icon) {
+    margin-bottom: 20px;
+}
+
+md-list-item h4 {
+    font-size: 18px;
+}
+
+
+/* Screening - Gender */
+md-radio-button ._md-label {
+    margin-left: 25px;
+    margin-right: 25px;
+    vertical-align: sub;
+    /*color: rgba(0,0,0,0.38);*/
+    color: #666666;
+}
+
+span.paragtitle{
+    color: rgba(0,0,0,0.87);
+    font-style: italic;
+}
+
+

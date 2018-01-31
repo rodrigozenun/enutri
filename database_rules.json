@@ -1,0 +1,53 @@
+{
+   "rules": {
+      ".read": "root.child('profiles/researchers').child(auth.uid).val() === true",
+      ".write": false,
+      "control": {
+         		"groups": {
+           ".read": "auth != null",
+           ".write": "auth != null"
+         }
+      },
+      "ffq": {
+         "$user": {
+            ".read": "auth.uid === $user",
+            ".write": "auth.uid === $user"
+         }
+      },
+      "survey": {
+         "$user": {
+            ".read": "auth.uid === $user",
+            ".write": "auth.uid === $user"
+         }
+      }, 
+      "feedback": {
+         "$user": {
+            ".read": "auth.uid === $user",
+            ".write": "auth.uid === $user"
+         }
+      }, 
+        "profiles": {
+         "$user": {
+            ".read": "root.child('profiles/researchers').child(auth.uid).val() === true",
+            ".write": false
+         }
+      },
+      "reports": {
+         "$user": {
+            ".read": "auth.uid === $user",
+            ".write": "auth.uid === $user"
+         }
+      },
+      "config": {
+         ".read": true,
+         ".write": false
+      },
+      "users": {
+        ".write": "root.child('profiles/researchers').child(auth.uid).val() === true",
+         "$user": {
+            ".read": "auth.uid === $user",
+            ".write": "auth.uid === $user"
+         }
+      }
+   }
+}

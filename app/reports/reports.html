@@ -1,0 +1,427 @@
+<div ng-show="loggedIn" ng-cloak>
+        <md-content>
+            <md-card ng-if="user.report == 'web'">
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label="{{'REPORT_ADVICE_TITLE' | translate}}">
+                        <div class="md-padding">
+                            <md-card>
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline"> {{'REPORT_ADVICE_GREETING' | translate}} {{user.screening.firstname}},</span>
+                                    </md-card-title-text>
+                                </md-card-title>
+                                <md-card-content>
+                                    <p ng-hide="increaseComponent == true || decreaseComponent == true "> {{'REPORT_ADVICE_INTRO_PERSONALISED_1' | translate}}</p>
+                                    <p ng-if="progressIncrease"> {{'REPORT_ADVICE_INTRO_PERSONALISED_INCREASE' | translate}}{{HESMessages[mc.selectedLanguage][progressIncrease].name}}.</p>
+                                    <p ng-if="progressDecrease"> {{'REPORT_ADVICE_INTRO_PERSONALISED_DECREASE' | translate}}{{HESMessages[mc.selectedLanguage][progressDecrease].name}}.</p>
+                                    <p> {{'REPORT_ADVICE_INTRO_PERSONALISED_NEXT' | translate}}</p>
+                                </md-card-content>
+                            </md-card>
+                            <md-card ng-repeat="(key,value) in report" ng-if="$index < 3">
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline"> <md-icon class="advice">{{arrowUpDown(HESScore[key].slopeType)}}</md-icon>{{HESMessages[mc.selectedLanguage][key].name}}</span>
+                                        <span class="md-subhead">{{getSubHeadline(HESScore[key].slopeType,value,mc.selectedLanguage)}}</span>
+                                    </md-card-title-text>
+                                    <md-card-title-media hide show-gt-xs>
+                                        <div class="md-media-md card-media"> <img ng-src="{{'assets/images/hes/hes'+HESScore[key].id+'.jpeg'}}" class="md-card-image" alt="Food image"></div>
+                                    </md-card-title-media>
+                                </md-card-title>
+                                <md-card-content>
+                                    <p> - {{getIntakeMessage(key,value, mc.selectedLanguage)}}</p>
+                                    <p ng-if="HESScore[key].slopeType == 'negative'"> - {{'REPORT_ADVICE_CONTRIBUTORS' | translate}}</p>
+                                    <ol ng-if="HESScore[key].slopeType == 'negative'"><li ng-repeat="contributor in contributors[key]" ng-if="$index < 5">{{FoodsList[contributor].foodname}} {{FoodsList[contributor].foodexample}}</li></ol>
+                                    <p> - {{getActionMessage(key,value, mc.selectedLanguage)}}</p>
+                                    <p> - {{getHealthMessage(key,value, mc.selectedLanguage)}}</p>
+                                </md-card-content>
+                                </md-card-content>'
+                                <br>
+                            </md-card>
+                            <md-card>
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline"> <md-icon class="advice">accessibility</md-icon> {{'REPORT_ADVICE_WEIGHT' | translate}} </span>
+                                    </md-card-title-text>
+                                </md-card-title>
+                                <md-card-content>
+
+                                    <!--<nvd3 options="options" data="{{getData(80)}}"></nvd3>-->
+                                    <nvd3-bullet-chart
+                                            data="weightData"
+                                            id="weightID"
+                                            margin="{left:15,top:10,bottom:20,right:10}"
+                                            width="450"
+                                            height="50"
+                                            ng-hide="mostLikelyBrowser === 'Firefox' || mostLikelyBrowser === 'Edge'|| mostLikelyBrowser === 'MSIE'">
+                                        <svg></svg>
+                                    </nvd3-bullet-chart>
+
+                                    <p>- <span class="paragtitle">{{'REPORT_ADVICE_WEIGHT_RANGE' | translate}}</span>: {{minWeight | number:0}}kg - {{maxWeight | number:0}}kg <span ng-show="weightUnit == 'stones'">({{minWeightStones}} - {{maxWeightStones}})</span></p>
+                                    <p>- <span class="paragtitle">{{'REPORT_ADVICE_WEIGHT_CURRENT' | translate}}</span>: {{currentWeight | number:1}} kg</p>
+                                    <p>- <span class="paragtitle">{{'REPORT_ADVICE_WEIGHT_CLASS' | translate}}</span>: <span ng-class="{'redClass': weightClass =='Obese','greenClass': weightClass =='Healthy Weight','yellowClass': weightClass =='Overweight' || weightClass =='Underweight'}">{{getWeightClass(currentWeight, mc.selectedLanguage)}}</span></p>
+                                    <p>{{weightMessage}}</p>
+                                </md-card-content>
+                                <br>
+                            </md-card>
+                            <md-card>
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline"> <md-icon class="advice">directions_run</md-icon> {{'REPORT_ADVICE_PA' | translate}}</span>
+                                        <!--<span class="md-subhead"> Score: 77 </span>-->
+                                    </md-card-title-text>
+                                    <!--<md-card-title-media hide show-gt-xs>
+                                        <div class="md-media-md card-media"> <img ng-src="{{'assets/images/hes/hes.jpg'}}" class="md-card-image" alt="Food image"></div>
+                                    </md-card-title-media>-->
+                                </md-card-title>
+                                <md-card-content>
+                                    <nvd3-bullet-chart
+                                            data="activityData"
+                                            id="activityID"
+                                            margin="{left:30,top:10,bottom:20,right:10}"
+                                            width="450"
+                                            height="50"
+                                            ng-hide="mostLikelyBrowser === 'Firefox' || mostLikelyBrowser === 'Edge'|| mostLikelyBrowser === 'MSIE'">
+                                        <svg></svg>
+                                    </nvd3-bullet-chart>
+                                    <p>- <span class="paragtitle">{{'REPORT_ADVICE_PA_OVERALL' | translate}}</span>: {{reports[numReports].baecke.overall/15*100 | number:0}}%</p>
+                                    <p>- <span class="paragtitle">{{'REPORT_ADVICE_PA_SPORTS' | translate}}</span>: {{reports[numReports].baecke.sports/5*100 | number:0}}%</p>
+                                    <p>&nbsp&nbsp{{getSportsMessage(baeckeSports, mc.selectedLanguage)}}</p>
+                                    <p>- <span class="paragtitle">{{'REPORT_ADVICE_PA_LEISURE' | translate}}</span>: {{reports[numReports].baecke.leisure/5*100 | number:0}}%</p>
+                                    <p>&nbsp&nbsp{{getLeisureMessage(baeckeLeisure, mc.selectedLanguage)}}</p>
+                                    <p>- <span class="paragtitle">{{'REPORT_ADVICE_PA_WORK' | translate}}</span>: {{reports[numReports].baecke.work/5*100 | number:0}}%</p>
+                                </md-card-content>
+                                <br>
+                            </md-card>
+                        </div>
+                        <div class="md-padding" md-theme="progress">
+                            <md-card>
+                                <md-card-content>
+                                    <p> {{'REPORT_PROGRESS_INTRO' | translate}}</p>
+                                </md-card-content>
+                                <md-content layout-padding class="md-list-item-text">
+                                    <md-list-item>
+                                        <md-icon>favorite</md-icon>
+                                        <h4 ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].hes, mc.definitions[mc.selectedLanguage][0].hesDef)">{{'REPORT_HES' | translate}}</h4>&nbsp<md-icon class="help" ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].hes, mc.definitions[mc.selectedLanguage][0].hesDef)">help_outline</md-icon>
+                                    </md-list-item>
+                                </md-content>
+                                <md-table-container>
+                                    <table md-table class="progressbar">
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column><span>SCORE</span></th>
+                                            <th md-column><span>DATE</span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{report.HES.overallScore}}% <md-progress-linear class="positive" ng-class="{'md-warn': report.HES.overallScore < 33,'md-accent': report.HES.overallScore < 66}" md-mode="determinate" value="{{report.HES.overallScore}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </md-table-container>
+                                <br>
+                                <md-content layout-padding>
+                                    <md-list-item >
+                                        <md-icon>thumb_up</md-icon>
+                                        <h4 ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].foodsRecommended, mc.definitions[mc.selectedLanguage][0].foodsRecommendedDef)">{{'REPORT_FOODS_REC' | translate}}</h4>&nbsp<h4 hide show-gt-xs>{{'REPORT_FOODS_REC_SECOND_SENTENCE' | translate}}</h4>&nbsp<md-icon class="help" ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].foodsRecommended, mc.definitions[mc.selectedLanguage][0].foodsRecommendedDef)">help_outline</md-icon>
+                                    </md-list-item>
+                                </md-content>
+                                <md-table-container>
+                                    <table md-table class="progressbar">
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES1VEG.name, HESMessages[mc.selectedLanguage].HES1VEG.description, contributors['HES1VEG'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES1VEG.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span>DATE</span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{report.HES.scores.HES1VEG}}%<md-progress-linear class="positive" ng-class="{'md-warn': report.HES.scores.HES1VEG < 33,'md-accent': report.HES.scores.HES1VEG < 66}" md-mode="determinate" value="{{report.HES.scores.HES1VEG}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tbody>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES2FRUIT.name, HESMessages[mc.selectedLanguage].HES2FRUIT.description, contributors['HES2FRUIT'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES2FRUIT.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{report.HES.scores.HES2FRUIT}}%<md-progress-linear class="positive" ng-class="{'md-warn': report.HES.scores.HES2FRUIT < 33,'md-accent': report.HES.scores.HES2FRUIT < 66}" md-mode="determinate" value="{{report.HES.scores.HES2FRUIT}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tr>
+                                        </tbody>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES3GRAINS.name, HESMessages[mc.selectedLanguage].HES3GRAINS.description, contributors['HES3GRAINS'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES3GRAINS.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{report.HES.scores.HES3GRAINS}}%<md-progress-linear class="positive" ng-class="{'md-warn': report.HES.scores.HES3GRAINS < 33,'md-accent': report.HES.scores.HES3GRAINS < 66}" md-mode="determinate" value="{{report.HES.scores.HES3GRAINS}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tr>
+                                        </tbody>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES4DAIRY.name, HESMessages[mc.selectedLanguage].HES4DAIRY.description, contributors['HES4DAIRY'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES4DAIRY.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{report.HES.scores.HES4DAIRY}}%<md-progress-linear class="positive" ng-class="{'md-warn': report.HES.scores.HES4DAIRY < 33,'md-accent': report.HES.scores.HES4DAIRY < 66}" md-mode="determinate" value="{{report.HES.scores.HES4DAIRY}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tr>
+                                        </tbody>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES5NUTS.name, HESMessages[mc.selectedLanguage].HES5NUTS.description, contributors['HES5NUTS'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES5NUTS.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{report.HES.scores.HES5NUTS}}%<md-progress-linear class="positive" ng-class="{'md-warn': report.HES.scores.HES5NUTS < 33,'md-accent': report.HES.scores.HES5NUTS < 66}" md-mode="determinate" value="{{report.HES.scores.HES5NUTS}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tr>
+                                        </tbody>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES8PUFA.name, HESMessages[mc.selectedLanguage].HES8PUFA.description, contributors['HES8PUFA'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES8PUFA.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{report.HES.scores.HES8PUFA}}%<md-progress-linear class="positive" ng-class="{'md-warn': report.HES.scores.HES8PUFA < 33,'md-accent': report.HES.scores.HES8PUFA < 66}" md-mode="determinate" value="{{report.HES.scores.HES8PUFA}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tbody>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES9N3FAT.name, HESMessages[mc.selectedLanguage].HES9N3FAT.description, contributors['HES9N3FAT'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES9N3FAT.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{report.HES.scores.HES9N3FAT}}%<md-progress-linear class="positive" ng-class="{'md-warn': report.HES.scores.HES9N3FAT < 33,'md-accent': report.HES.scores.HES9N3FAT < 66}" md-mode="determinate" value="{{report.HES.scores.HES9N3FAT}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tr>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </md-table-container>
+                                <br>
+                                <md-content layout-padding>
+                                    <md-list-item>
+                                        <md-icon>thumb_down</md-icon>
+                                        <h4 ng-click="showComponentExplanation($event, mc.definitions[mc.selectedLanguage][0].foodsLimit, mc.definitions[mc.selectedLanguage][0].foodsLimitDef)">{{'REPORT_FOODS_LIMIT' | translate}}</h4>&nbsp<h4 hide show-gt-xs>{{'REPORT_FOODS_LIMIT_SECOND_SENTENCE' | translate}}</h4>&nbsp<md-icon class="help" ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].foodsLimit, mc.definitions[mc.selectedLanguage][0].foodsLimitDef)">help_outline</md-icon>
+                                    </md-list-item>
+                                </md-content>
+                                <md-table-container>
+                                    <table md-table class="progressbar">
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES6SUG.name, HESMessages[mc.selectedLanguage].HES6SUG.description, contributors['HES6SUG'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES6SUG.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span>DATE</span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{100-report.HES.scores.HES6SUG}}%<md-progress-linear class="negative" ng-class="{'md-warn': report.HES.scores.HES6SUG < 33,'md-accent':report.HES.scores.HES6SUG < 66}" md-mode="determinate" value="{{100-report.HES.scores.HES6SUG}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tbody>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES7MEAT.name, HESMessages[mc.selectedLanguage].HES7MEAT.description, contributors['HES7MEAT'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES7MEAT.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{100-report.HES.scores.HES7MEAT}}%<md-progress-linear class="negative" ng-class="{'md-warn': report.HES.scores.HES7MEAT < 33,'md-accent': report.HES.scores.HES7MEAT < 66}" md-mode="determinate" value="{{100-report.HES.scores.HES7MEAT}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tr>
+                                        </tbody>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES10SOD.name,  HESMessages[mc.selectedLanguage].HES10SOD.description, contributors['HES10SOD'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES10SOD.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{100-report.HES.scores.HES10SOD}}%<md-progress-linear class="negative" ng-class="{'md-warn': report.HES.scores.HES10SOD < 33,'md-accent': report.HES.scores.HES10SOD < 66}" md-mode="determinate" value="{{100-report.HES.scores.HES10SOD}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tbody>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ng-click="showComponentExplanation($event, HESMessages[mc.selectedLanguage].HES11ALCO.name,  HESMessages[mc.selectedLanguage].HES11ALCO.description, contributors['HES11ALCO'], FoodsList)"><span>{{HESMessages[mc.selectedLanguage].HES11ALCO.name}}</span><md-icon class="zoom">zoom_in</md-icon></th>
+                                            <th md-column ><span></span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell>{{100-report.HES.scores.HES11ALCO}}%<md-progress-linear class="negative" ng-class="{'md-warn': report.HES.scores.HES11ALCO < 33,'md-accent': report.HES.scores.HES11ALCO > 33 && report.HES.scores.HES10SOD < 66}" md-mode="determinate" value="{{100-report.HES.scores.HES11ALCO}}"></md-progress-linear></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tbody>
+                                    </table>
+                                </md-table-container>
+                                <br>
+
+                                <md-content layout-padding>
+                                    <md-list-item>
+                                        <md-icon>directions_run</md-icon>
+                                        <h4>{{'REPORT_ADVICE_PA' | translate}}</h4>&nbsp<md-icon class="help" ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].physicalActivity, MessagesList[mc.selectedLanguage].baecke)">help_outline</md-icon>
+                                    </md-list-item>
+                                </md-content>
+                                <md-table-container>
+                                    <table md-table>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column ><span>OVERALL</span><md-icon ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].overallScore, MessagesList[mc.selectedLanguage].baecke)">help_outline</md-icon></th>
+                                            <th md-column ><span>SPORTS</span><md-icon ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].sportsScore, MessagesList[mc.selectedLanguage].sportsActivity)">help_outline</md-icon></th>
+                                            <th md-column ><span>LEISURE</span><md-icon ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].leisureScore, MessagesList[mc.selectedLanguage].leisureActivity)">help_outline</md-icon></th>
+                                            <th md-column ><span>WORK</span><md-icon ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].workScore, MessagesList[mc.selectedLanguage].workActivity)">help_outline</md-icon></th>
+                                            <th md-column ><span>DATE</span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell><p>{{report.baecke.overall/15*100|number:0}}</p></td>
+                                            <td md-cell><p>{{report.baecke.sports/5*100|number:0}}</p></td>
+                                            <td md-cell><p>{{report.baecke.leisure/5*100|number:0}}</p></td>
+                                            <td md-cell><p>{{report.baecke.work/5*100|number:0}}</p></td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </md-table-container>
+                                <md-content layout-padding>
+                                    <md-list-item>
+                                        <md-icon>accessibility</md-icon>
+                                        <h4>{{'REPORT_ADVICE_WEIGHT' | translate}}</h4>&nbsp<md-icon class="help" ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].weight, MessagesList[mc.selectedLanguage].weightRange)">help_outline</md-icon>
+                                    </md-list-item>
+                                </md-content>
+                                <md-table-container>
+                                    <table md-table>
+                                        <thead md-head>
+                                        <tr md-row>
+                                            <th md-column><span>WEIGHT (kg)</span></th></th>
+                                            <th md-column ><span>CLASSIFICATION</span><md-icon class="help" ng-click="showHelp($event, mc.definitions[mc.selectedLanguage][0].weight, MessagesList[mc.selectedLanguage].weightRange)">help_outline</md-icon></th>
+                                            <th md-column ><span>DATE</span></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody md-body>
+                                        <tr md-row ng-repeat="report in reports">
+                                            <td md-cell><p>{{report.currentWeight | number:1}}</p></td>
+                                            <td md-cell>{{getWeightClass(report.currentWeight, mc.selectedLanguage)}}</td>
+                                            <td md-cell>{{report.reportDate}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </md-table-container>
+                                <br>
+                        </div>
+
+                        <div class="md-padding" ng-if="numReports == 3" ng-hide="feedbackComplete">
+                            <md-card>
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline"> {{'MESSAGE_THANKYOU' | translate}}</span>
+                                    </md-card-title-text>
+                                </md-card-title>
+                                <md-card-content>
+                                    <p> {{'MESSAGE_FEEDBACK_INSTRUCTIONS' | translate}}</p>
+                                    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                        <md-button ng-href="#/questionnaire" class="md-raised md-primary" aria-label="Start Feedback">Start Feedback</md-button>
+                                    </section>
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                    </md-tab>
+                </md-tabs>
+            </md-card>
+
+
+
+
+
+
+            <md-card ng-if="user.report == 'control'">
+                <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label="{{'REPORT_ADVICE_TITLE' | translate}}">
+                        <div class="md-padding">
+                            <md-card>
+                                <md-card-content>
+                                    <h4> {{'REPORT_ADVICE_INTRO_CONTROL' | translate}}</h4>
+                                    <h4> {{'REPORT_ADVICE_INTRO_CONTROL_2' | translate}}</h4>
+                                </md-card-content>
+                            </md-card>
+                            <md-card ng-repeat="(key,value) in reportControl" ng-if="$index < 10">
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline"> <md-icon class="advice">{{arrowUpDown(HESScore[key].slopeType)}}</md-icon> {{HESMessages[mc.selectedLanguage][key].name}}</span>
+                                    </md-card-title-text>
+                                    <md-card-title-media hide show-gt-xs>
+                                        <div class="md-media-md card-media"> <img ng-src="{{'assets/images/hes/hes'+HESScore[key].id+'.jpeg'}}" class="md-card-image" alt="Food image"></div>
+                                    </md-card-title-media>
+                                </md-card-title>
+                                <md-card-content>
+                                    <p>{{getControlMessage(key,mc.selectedLanguage)}}</p>
+                                </md-card-content>
+                                <br>
+                            </md-card>
+                            <md-card>
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline"> <md-icon class="advice">accessibility</md-icon> {{'REPORT_ADVICE_WEIGHT' | translate}} </span>
+                                        <!--<span class="md-subhead"> height: {{height}}cm </span>-->
+                                    </md-card-title-text>
+                                    <!--<md-card-title-media hide show-gt-xs>
+                                        <div class="md-media-md card-media"> <img ng-src="{{'assets/images/hes/bmi.jpg'}}" class="md-card-image" alt="Food image"></div>
+                                    </md-card-title-media>-->
+                                </md-card-title>
+                                <md-card-content>
+                                    <p>- {{MessagesList[mc.selectedLanguage].controlWeight}}</p>
+                                </md-card-content>
+                            </md-card>
+                            <md-card>
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline"> <md-icon class="advice">directions_run</md-icon> {{'REPORT_ADVICE_PA' | translate}}</span>
+                                        <!--<span class="md-subhead"> Score: 77 </span>-->
+                                    </md-card-title-text>
+                                    <!--<md-card-title-media hide show-gt-xs>
+                                        <div class="md-media-md card-media"> <img ng-src="{{'assets/images/hes/hes.jpg'}}" class="md-card-image" alt="Food image"></div>
+                                    </md-card-title-media>-->
+                                </md-card-title>
+                                <md-card-content>
+                                    <p>- {{MessagesList[mc.selectedLanguage].sportsControl}}</p>
+                                    <p>- {{MessagesList[mc.selectedLanguage].leisureControl}}</p>
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                    </md-tab>
+                </md-tabs>
+            </md-card>
+
+        </md-content>
+   <!-- <md-content layout-padding layout="row" layout-align="center center" style="min-height:500px" ng-if="user.group == 'face'">
+        <md-card >
+            <h3 class="md-title">{{'MESSAGE_THANKYOU' | translate}}</h3>
+            <p>{{'MESSAGE_REPORT_FACETOFACE' | translate}}</p>
+            <br>
+        </md-card>
+    </md-content>-->
+    <div >
+        <!--<md-content layout-padding layout="row" layout-align="center center" style="min-height:500px">-->
+
+        <!--</md-content>-->
+    </div>
+</div>

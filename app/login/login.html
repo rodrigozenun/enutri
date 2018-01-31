@@ -1,0 +1,52 @@
+<div layout="column" ng-cloak>
+    <md-content layout-padding>
+        <md-card>
+            <h2 class="md-title">{{'LOGIN_HEADING' | translate}}</h2>
+            <form name="loginform">
+            <md-input-container class="md-block">
+                <label>{{'LOGIN_EMAIL' | translate}}</label>
+                <input type="email" ng-model="email" name="uEmail" required minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                <div ng-messages="loginform.uEmail.$error" role="alert">
+                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                        {{'LOGIN_EMAIL_INVALID' | translate}}
+                    </div>
+                </div>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'LOGIN_PASSWORD' | translate}}</label>
+                <input type="password" ng-model="pass" name="uPass" required minlength="5" maxlength="30" />
+                <div ng-messages="loginform.uPass.$error" role="alert">
+                    <div ng-message-exp="[ 'minlength', 'maxlength']">
+                        {{'LOGIN_PASSWORD_INVALID' | translate}}
+                    </div>
+                </div>
+            </md-input-container>
+
+            <md-input-container class="md-block" ng-show="createMode">
+                <label>{{'LOGIN_PASSWORD_CONFIRM' | translate}}</label>
+                <input type="password" ng-model="confirm" name="uPassConfirm" required minlength="5" maxlength="30"/>
+                <div ng-messages="loginform.uPassConfirm.$error" role="alert">
+                    <div ng-message-exp="[ 'minlength', 'maxlength']">
+                        {{'LOGIN_PASSWORD_INVALID' | translate}}
+                    </div>
+                </div>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+            <p ng-show="err" class="error">{{err}}</p>
+            <p ng-show="message" ng-model="message"><strong>{{ message }}</strong></p>
+            <p ng-show="error" ng-model="error">Error: <strong>{{ error }}</strong></p>
+            </md-input-container>
+
+            <!--<md-button type="submit" ng-click="createMode = true" ng-hide="createMode" class="md-raised md-primary">{{'LOGIN_CREATE_ACCOUNT' | translate}}</md-button>-->
+            <md-button type="submit" ng-click="login(email, pass)" ng-hide="createMode" class="md-raised md-primary">{{'LOGIN_LOGIN' | translate}}</md-button>
+            <br>
+            <md-button ng-click="resetPassword(email, pass)" ng-hide="createMode" md-no-ink class="md-primary">{{'LOGIN_RESET' | translate}}</md-button>
+            <!--<md-button ng-cloak ng-show="createMode" ng-click="createAccount()" class="md-raised md-primary">{{'LOGIN_CREATE_ACCOUNT' | translate}}</md-button>-->
+            <md-button ng-cloak ng-show="createMode" ng-click="createMode = false" class="md-raised">{{'LOGIN_CANCEL' | translate}}</md-button>
+
+            </form>
+        </md-card>
+    </md-content>
+</div>

@@ -1,0 +1,36 @@
+<md-bottom-sheet class="md-grid" layout="column" ng-cloak>
+<!--    <div layout="row" layout-align="center center">
+        Contact <span class="name">{{ cp.menu.name }}</span>:
+    </div>
+    <div>
+        <md-list flex layout="row" layout-align="center center">
+            <md-list-item ng-repeat="item in cp.portions">
+                <img class="md-grid-item-content" src="https://eatwellq8.org/images/foods/food-small-0.jpg" ng-click="cp.contactUser(item)" id="item_{{$index}}" height="301" width="451">
+            </md-list-item>
+        </md-list>
+    </div>-->
+
+    <div layout="row" layout-align="center center">
+        <h3>{{'FFQ_HOWMUCH' | translate}} </h3>
+    </div>
+
+        <md-grid-list
+                md-cols-xs="1" md-cols-sm="1" md-cols-gt-sm="1" md-cols-md="2" md-cols-gt-md="3"
+                md-row-height="1:0.45" md-row-height-xs="1:0.50" md-row-height-sm="1:0.35" md-row-height-gt-sm="2:0.9" md-row-height-md="3:2" md-row-height-gt-md="1:1"
+                md-gutter="1px" md-gutter-gt-sm="1px" >
+            <md-grid-tile ng-repeat="item in cp.portions">
+                <img ng-src="{{item.image_url}}{{cp.currentFoodItem}}.jpg" ng-click="cp.selectPortion(item)" id="item_{{$index}}" height="150" width="225">
+            </md-grid-tile>
+        </md-grid-list>
+<!--            <md-grid-list"
+                    md-cols-gt-md="3" md-cols="3" md-cols-md="8"
+                    md-row-height-gt-md="1:1" md-row-height="4:3"
+                    md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
+                <md-grid-tile ng-repeat="item in cp.portions">
+                    <img src="https://eatwellq8.org/images/foods/food-small-0.jpg" ng-click="cp.contactUser(item)" id="item_{{$index}}" height="150" width="225">
+                </md-grid-tile>
+            </md-grid-list>-->
+
+
+
+</md-bottom-sheet>

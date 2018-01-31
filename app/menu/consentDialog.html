@@ -1,0 +1,38 @@
+<md-dialog aria-label="Help Tab">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'CONSENT_HEADING' | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="answer('disagree')">
+                    <md-icon md-svg-src="assets/svg/ic_clear_white_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width:800px;max-height:810px; ">
+           <!-- <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="{{'CONSENT_HEADING' | translate}}">-->
+                    <md-content class="md-padding">
+                        <p> <a href="assets/eatwelluk_infosheet.pdf" target="_blank"> {{'INFO_TAB_PIS' | translate}}</a> </p>
+                        <p> <a href="assets/eatwelluk_consent.pdf" target="_blank"> {{'INFO_TAB_CONSENT' | translate}}</a> </p>
+                        <p>{{'CONSENT_1' | translate}}</p>
+                        <p>{{'CONSENT_2' | translate}}</p>
+                        <p>{{'CONSENT_3' | translate}}</p>
+                        <p>{{'CONSENT_4' | translate}}</p>
+                        <p>{{'CONSENT_5' | translate}}</p>
+                        <p>{{'CONSENT_6' | translate}}</p>
+                    </md-content>
+               <!-- </md-tab>
+            </md-tabs>-->
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="answer('disagree')" >
+                {{'CONSENT_DISAGREE' | translate}}
+            </md-button>
+            <md-button ng-click="answer('agree')" style="margin-right:20px;" >
+                {{'CONSENT_AGREE' | translate}}
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

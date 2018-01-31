@@ -1,0 +1,30 @@
+<md-dialog aria-label="Help Tab">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{ctrl.parent.componentName}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="ctrl.parent.cancel()">
+                    <md-icon md-svg-src="assets/svg/ic_clear_white_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width:800px;max-height:810px; ">
+
+                    <md-content class="md-padding">
+                        <p>{{ctrl.parent.componentDescription}}</p>
+                        <p ng-if="ctrl.parent.contributorsExist">{{'REPORT_ADVICE_CONTRIBUTORS' | translate}}</p>
+                        <ol>
+                            <li ng-repeat="contributor in ctrl.parent.componentContributors" ng-if="$index < 5">{{ctrl.parent.foods[contributor].foodname}} {{ctrl.parent.foods[contributor].foodexample}}</li>
+                        </ol>
+                    </md-content>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="ctrl.parent.cancel()" >
+                OK
+            </md-button>
+
+        </md-dialog-actions>
+    </form>
+</md-dialog>

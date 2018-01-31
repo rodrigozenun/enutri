@@ -1,0 +1,60 @@
+{
+  "name": "angular-aria",
+  "version": "1.5.0",
+  "description": "AngularJS module for making accessibility easy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/angular.js.git"
+  },
+  "keywords": [
+    "angular",
+    "framework",
+    "browser",
+    "accessibility",
+    "a11y",
+    "client-side"
+  ],
+  "author": {
+    "name": "Angular Core Team",
+    "email": "angular-core+npm@google.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angular/angular.js/issues"
+  },
+  "homepage": "http://angularjs.org",
+  "gitHead": "39f42383b9607ba9750da5212ec66998a0f5577e",
+  "_id": "angular-aria@1.5.0",
+  "_shasum": "b1099dea02af41d264953ea297590b1504673802",
+  "_from": "angular-aria@>=1.4.9 <2.0.0",
+  "_npmVersion": "2.14.12",
+  "_nodeVersion": "4.2.6",
+  "_npmUser": {
+    "name": "angularcore",
+    "email": "angular-core+npm@google.com"
+  },
+  "maintainers": [
+    {
+      "name": "angularcore",
+      "email": "angular-core+npm@google.com"
+    },
+    {
+      "name": "petebd",
+      "email": "pete@bacondarwin.com"
+    }
+  ],
+  "dist": {
+    "shasum": "b1099dea02af41d264953ea297590b1504673802",
+    "tarball": "http://registry.npmjs.org/angular-aria/-/angular-aria-1.5.0.tgz"
+  },
+  "_npmOperationalInternal": {
+    "host": "packages-9-west.internal.npmjs.com",
+    "tmp": "tmp/angular-aria-1.5.0.tgz_1454673726024_0.3032325687818229"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/angular-aria/-/angular-aria-1.5.0.tgz"
+}

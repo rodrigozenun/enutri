@@ -1,0 +1,631 @@
+<div ng-show="loggedIn" ng-cloak>
+    <md-content>
+        <md-card>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Summary">
+                    <div class="md-padding">
+                        <md-list-item>
+                            <md-icon>cached</md-icon>
+                            <p>Participants registered: {{users.length}}</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <md-icon>cached</md-icon>
+                            Participants with complete screening: {{countUsersCompletedScreening}}</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <md-icon>cached</md-icon>
+                            Participants with accepted screening: {{countUsersAcceptedScreening}}</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <md-icon>cached</md-icon>
+                            Participants waiting for eligibility confirmation: {{countUsersWaitingEligibility}}</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <md-icon>cached</md-icon>
+                            <p>Participants with 1 complete FFQs: {{countUsersOneCompletedFFQ}}</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <md-icon>cached</md-icon>
+                            <p>Participants with 2 complete FFQs: {{countUsersTwoCompletedFFQ}}</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <md-icon>cached</md-icon>
+                            <p>Participants with 3 complete FFQs: {{countUsersThreeCompletedFFQ}}</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <md-icon>cached</md-icon>
+                            <p>Complete SUS Surveys: {{surveyList.length}}</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <md-icon>cached</md-icon>
+                            <p>Complete Report Feedbacks: {{feedbackList.length}}</p>
+                        </md-list-item>
+                    </div>
+                </md-tab>
+                <md-tab label="Progress">
+                    <div class="md-padding">
+                        <md-toolbar class="md-table-toolbar md-default" ng-show=true>
+                            <div class="md-toolbar-tools">
+                                <md-icon>search</md-icon>
+                                <form flex name="filter.form">
+                                    <input type="text" ng-model="search.$" placeholder="search users">
+                                </form>
+                            </div>
+                        </md-toolbar>
+                        <md-table-container>
+                            <table md-table>
+                                <thead md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column md-order-by="name"><span>userID</span></th>
+                                    <th md-column md-order-by="email" md-desc><span>e-mail</span></th>
+                                    <th md-column><span>Group</span></th>
+                                    <th md-column><span>Consent</span></th>
+                                    <th md-column><span>Screening</span></th>
+                                    <th md-column><span>Accepted</span></th>
+                                    <th md-column><span>Survey</span></th>
+                                    <th md-column><span>#Complete FFQs</span></th>
+                                    <th md-column><span>First Complete FFQ Date</span></th>
+                                    <th md-column><span>Last Complete FFQ Date</span></th>
+                                    <th md-column><span>Due FFQ</span></th>
+                                    <th md-column><span>Report Feedback</span></th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <tr md-row ng-repeat="user in users | filter:search">
+                                    <td md-cell>{{ user.userid }}</td>
+                                    <td md-cell>{{ user.email }}</td>
+                                    <td md-cell>{{ user.group }}</td>
+                                    <td md-cell>{{ user.state.consentResponse}}</td>
+                                    <td md-cell>{{ user.state.screeningComplete}}</td>
+                                    <td md-cell>{{ user.state.screeningAccepted}}</td>
+                                    <td md-cell>{{ user.state.surveyComplete}}</td>
+                                    <td md-cell>{{ user.state.FFQCompleteCount}}</td>
+                                    <td md-cell>{{ user.state.firstFFQCompletionDate}}</td>
+                                    <td md-cell>{{ user.state.lastFFQCompletionDate}}</td>
+                                    <td md-cell>{{ user.state.nextFFQDueDate}}</td>
+                                    <td md-cell>{{ user.state.feedbackComplete}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </div>
+                </md-tab>
+                <md-tab label="Screening">
+                    <div class="md-padding">
+                            <md-toolbar class="md-table-toolbar md-default" ng-show=true>
+                                <div class="md-toolbar-tools">
+                                    <md-icon>search</md-icon>
+                                    <form flex name="filter.form">
+                                        <input type="text" ng-model="search.$" placeholder="search users">
+                                    </form>
+                                </div>
+                            </md-toolbar>
+                            <md-table-container>
+                                <table md-table>
+                                    <thead md-head md-order="query.order" md-on-reorder="logOrder">
+                                    <tr md-row>
+                                        <th md-column><span>userID</span></th>
+                                        <th md-column><span>e-mail</span></th>
+                                        <th md-column><span>Group</span></th>
+                                        <th md-column><span>First Name</span></th>
+                                        <th md-column><span>Surname</span></th>
+                                        <th md-column><span>Gender</span></th>
+                                        <th md-column><span>Age</span></th>
+                                        <th md-column><span>Height (cm)</span></th>
+                                        <th md-column><span>Education</span></th>
+                                        <th md-column><span>Not Good Health</span></th>
+                                        <th md-column><span>Not Good Health Desc</span></th>
+                                        <th md-column><span>Lactose</span></th>
+                                        <th md-column><span>Food Allergy</span></th>
+                                        <th md-column><span>Food Allergy Description</span></th>
+                                        <th md-column><span>Diabetes</span></th>
+                                        <th md-column><span>Methabolic Disorder</span></th>
+                                        <th md-column><span>Illnesses</span></th>
+                                        <th md-column><span>Illnesses Desc</span></th>
+                                        <th md-column><span>Medication</span></th>
+                                        <th md-column><span>Medication Desc</span></th>
+                                        <th md-column><span>Medical Info</span></th>
+                                        <th md-column><span>Medical Info Desc</span></th>
+                                        <th md-column><span>Not living in the UK</span></th>
+                                        <th md-column><span>Vegan</span></th>
+                                        <th md-column><span>Diet Req</span></th>
+                                        <th md-column><span>Diet Req Desc</span></th>
+                                        <th md-column><span>Accept</span></th>
+                                        <th md-column><span>Reject</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody md-body>
+                                    <tr md-row ng-repeat="user in users | filter:search">
+                                        <td md-cell>{{ user.userid }}</td>
+                                        <td md-cell>{{ user.email }}</td>
+                                        <td md-cell>{{ user.group }}</td>
+                                        <td md-cell>{{ user.screening.firstname}}</td>
+                                        <td md-cell>{{ user.screening.surname }}</td>
+                                        <td md-cell>{{ user.screening.gender }}</td>
+                                        <td md-cell>{{ user.screening.age }}</td>
+                                        <td md-cell>{{ user.screening.height }}</td>
+                                        <td md-cell>{{ user.screening.education.label }}</td>
+                                        <td md-cell>{{ user.screening.notgoodhealth }}</td>
+                                        <td md-cell>{{ user.screening.notgoodhealthDesc}}</td>
+                                        <td md-cell>{{ user.screening.lactose }}</td>
+                                        <td md-cell>{{ user.screening.foodallergy }}</td>
+                                        <td md-cell>{{ user.screening.foodallergyDesc }}</td>
+                                        <td md-cell>{{ user.screening.diabetes }}</td>
+                                        <td md-cell>{{ user.screening.methabolicdisorder }}</td>
+                                        <td md-cell>{{ user.screening.illnesses }}</td>
+                                        <td md-cell>{{ user.screening.illnessesDesc }}</td>
+                                        <td md-cell>{{ user.screening.medication }}</td>
+                                        <td md-cell>{{ user.screening.medicationDesc }}</td>
+                                        <td md-cell>{{ user.screening.medicalinformation }}</td>
+                                        <td md-cell>{{ user.screening.medicalinformationDesc }}</td>
+                                        <td md-cell>{{ user.screening.livinguk }}</td>
+                                        <td md-cell>{{ user.screening.vegan }}</td>
+                                        <td md-cell>{{ user.screening.dietaryreq }}</td>
+                                        <td md-cell>{{ user.screening.dietaryreqDesc }}</td>
+                                        <td md-cell ng-show="user.group == 'waiting'"><md-button  md-no-ink class="md-primary" ng-click="redefineParticipantGroup(user.userid)"> Accept </md-button></td>
+                                        <td md-cell ng-show="user.group == 'waiting'"><md-button  md-no-ink class="md-primary" ng-click="rejectParticipant(user.userid)"> Reject </md-button></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </md-table-container>
+                    </div>
+                </md-tab>
+                <md-tab label="Recruitment">
+                    <div class="md-padding">
+                        <md-toolbar class="md-table-toolbar md-default" ng-show=true>
+                            <div class="md-toolbar-tools">
+                                <md-icon>search</md-icon>
+                                <form flex name="filter.form">
+                                    <input type="text" ng-model="search.$" placeholder="search users">
+                                </form>
+                            </div>
+                        </md-toolbar>
+                        <md-table-container>
+                            <table md-table>
+                                <thead md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column><span>userID</span></th>
+                                    <th md-column><span>e-mail</span></th>
+                                    <th md-column><span>Group</span></th>
+                                    <th md-column><span>Self-reported</span></th>
+                                    <th md-column><span>Source</span></th>
+                                    <th md-column><span>Medium</span></th>
+                                    <th md-column><span>Campaign</span></th>
+                                    <th md-column><span>Term</span></th>
+                                    <th md-column><span>Content</span></th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <tr md-row ng-repeat="user in users | filter:search">
+                                    <td md-cell>{{ user.userid }}</td>
+                                    <td md-cell>{{ user.email }}</td>
+                                    <td md-cell>{{ user.group }}</td>
+                                    <td md-cell>{{ user.screening.recruitment.label }}</td>
+                                    <td md-cell>{{ user.utm.source }}</td>
+                                    <td md-cell>{{ user.utm.medium }}</td>
+                                    <td md-cell>{{ user.utm.campaign }}</td>
+                                    <td md-cell>{{ user.utm.term }}</td>
+                                    <td md-cell>{{ user.utm.content }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </div>
+                </md-tab>
+                <md-tab label="HES">
+                    <div class="md-padding">
+                        <md-toolbar class="md-table-toolbar md-default" ng-show=true>
+                            <div class="md-toolbar-tools">
+                                <md-icon>search</md-icon>
+                                <form flex name="filter.form">
+                                    <input type="text" ng-model="search.$" placeholder="search users">
+                                </form>
+                            </div>
+                        </md-toolbar>
+                        <md-table-container>
+                            <table md-table>
+                                <thead md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column><span>userID</span></th>
+                                    <th md-column><span>Date</span></th>
+                                    <th md-column><span>FFQ ID</span></th>
+                                    <th md-column><span>Weight</span></th>
+                                    <th md-column><span>HES</span></th>
+                                    <th md-column><span>Lowest HES</span></th>
+                                    <th md-column><span>Increase</span></th>
+                                    <th md-column><span>Decrease</span></th>
+                                    <th md-column><span>HES1VEG</span></th>
+                                    <th md-column><span>HES2FRUIT</span></th>
+                                    <th md-column><span>HES3GRAINS</span></th>
+                                    <th md-column><span>HES4DAIRY</span></th>
+                                    <th md-column><span>HES5NUTS</span></th>
+                                    <th md-column><span>HES6SUG</span></th>
+                                    <th md-column><span>HES7MEAT</span></th>
+                                    <th md-column><span>HES8PUFA</span></th>
+                                    <th md-column><span>HES9N3FAT</span></th>
+                                    <th md-column><span>HES10SOD</span></th>
+                                    <th md-column><span>HES11ALCO</span></th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <tr md-row ng-repeat="report in reportsList | filter:search">
+                                    <td md-cell>{{ report[1].userid }}</td>
+                                    <td md-cell>{{ report[1].reportDate }}</td>
+                                    <td md-cell>{{ report[1].ffqID }}</td>
+                                    <td md-cell>{{ report[1].currentWeight | number:1}}</td>
+                                    <td md-cell>{{ report[1].HES.overallScore }}</td>
+                                    <td md-cell>{{ report[1].HES.lowest }}</td>
+                                    <td md-cell> N/A </td>
+                                    <td md-cell> N/A </td>
+                                    <td md-cell>{{ report[1].HES.scores.HES1VEG }}</td>
+                                    <td md-cell>{{ report[1].HES.scores.HES2FRUIT }}</td>
+                                    <td md-cell>{{ report[1].HES.scores.HES3GRAINS }}</td>
+                                    <td md-cell>{{ report[1].HES.scores.HES4DAIRY }}</td>
+                                    <td md-cell>{{ report[1].HES.scores.HES5NUTS }}</td>
+                                    <td md-cell>{{ report[1].HES.scores.HES6SUG }}</td>
+                                    <td md-cell>{{ report[1].HES.scores.HES7MEAT }}</td>
+                                    <td md-cell>{{ report[1].HES.scores.HES8PUFA }}</td>
+                                    <td md-cell>{{ report[1].HES.scores.HES9N3FAT }}</td>
+                                    <td md-cell>{{ report[1].HES.scores.HES10SOD }}</td>
+                                    <td md-cell>{{ report[1].HES.scores.HES11ALCO }}</td>
+                                </tr>
+                                <tr md-row ng-repeat="report in reportsList | filter:search" ng-if="report[2].userid">
+                                    <td md-cell>{{ report[2].userid }}</td>
+                                    <td md-cell>{{ report[2].reportDate }}</td>
+                                    <td md-cell>{{ report[2].ffqID }}</td>
+                                    <td md-cell>{{ report[2].currentWeight }}</td>
+                                    <td md-cell>{{ report[2].HES.overallScore }}</td>
+                                    <td md-cell>{{ report[2].HES.lowest }}</td>
+                                    <td md-cell>{{ report[2].HES.progress.increase }}</td>
+                                    <td md-cell>{{ report[2].HES.progress.decrease }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES1VEG }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES2FRUIT }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES3GRAINS }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES4DAIRY }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES5NUTS }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES6SUG }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES7MEAT }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES8PUFA }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES9N3FAT }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES10SOD }}</td>
+                                    <td md-cell>{{ report[2].HES.scores.HES11ALCO }}</td>
+                                </tr>
+                                <tr md-row ng-repeat="report in reportsList | filter:search" ng-if="report[3].userid">
+                                    <td md-cell>{{ report[3].userid }}</td>
+                                    <td md-cell>{{ report[3].reportDate }}</td>
+                                    <td md-cell>{{ report[3].ffqID }}</td>
+                                    <td md-cell>{{ report[3].currentWeight }}</td>
+                                    <td md-cell>{{ report[3].HES.overallScore }}</td>
+                                    <td md-cell>{{ report[3].HES.lowest }}</td>
+                                    <td md-cell>{{ report[3].HES.progress.increase }}</td>
+                                    <td md-cell>{{ report[2].HES.progress.decrease }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES1VEG }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES2FRUIT }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES3GRAINS }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES4DAIRY }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES5NUTS }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES6SUG }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES7MEAT }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES8PUFA }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES9N3FAT }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES10SOD }}</td>
+                                    <td md-cell>{{ report[3].HES.scores.HES11ALCO }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </div>
+                </md-tab>
+                <md-tab label="Contributors">
+                    <div class="md-padding">
+                        <md-toolbar class="md-table-toolbar md-default" ng-show=true>
+                            <div class="md-toolbar-tools">
+                                <md-icon>search</md-icon>
+                                <form flex name="filter.form">
+                                    <input type="text" ng-model="search.$" placeholder="search users">
+                                </form>
+                            </div>
+                        </md-toolbar>
+                        <md-table-container>
+                            <table md-table>
+                                <thead md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column><span>userID</span></th>
+                                    <th md-column><span>Date</span></th>
+                                    <th md-column><span>FFQ ID</span></th>
+                                    <th md-column><span>Weight</span></th>
+                                    <th md-column><span>HES</span></th>
+                                    <th md-column><span>Lowest HES</span></th>
+                                    <th md-column><span>HES1VEG</span></th>
+                                    <th md-column><span>HES2FRUIT</span></th>
+                                    <th md-column><span>HES3GRAINS</span></th>
+                                    <th md-column><span>HES4DAIRY</span></th>
+                                    <th md-column><span>HES5NUTS</span></th>
+                                    <th md-column><span>HES6SUG</span></th>
+                                    <th md-column><span>HES7MEAT</span></th>
+                                    <th md-column><span>HES8PUFA</span></th>
+                                    <th md-column><span>HES9N3FAT</span></th>
+                                    <th md-column><span>HES10SOD</span></th>
+                                    <th md-column><span>HES11ALCO</span></th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <tr md-row ng-repeat="report in reportsList | filter:search">
+                                    <td md-cell>{{ report[1].userid }}</td>
+                                    <td md-cell>{{ report[1].reportDate }}</td>
+                                    <td md-cell>{{ report[1].ffqID }}</td>
+                                    <td md-cell>{{ report[1].currentWeight | number:1}}</td>
+                                    <td md-cell>{{ report[1].HES.overallScore }}</td>
+                                    <td md-cell>{{ report[1].HES.lowest }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES1VEG }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES2FRUIT }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES3GRAINS }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES4DAIRY }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES5NUTS }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES6SUG }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES7MEAT }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES8PUFA }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES9N3FAT }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES10SOD }}</td>
+                                    <td md-cell>{{ report[1].HES.biggestContributors.HES11ALCO }}</td>
+                                </tr>
+                                <tr md-row ng-repeat="report in reportsList | filter:search" ng-if="report[2].userid">
+                                    <td md-cell>{{ report[2].userid }}</td>
+                                    <td md-cell>{{ report[2].reportDate }}</td>
+                                    <td md-cell>{{ report[2].ffqID }}</td>
+                                    <td md-cell>{{ report[2].currentWeight }}</td>
+                                    <td md-cell>{{ report[2].HES.overallScore }}</td>
+                                    <td md-cell>{{ report[2].HES.lowest }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES1VEG }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES2FRUIT }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES3GRAINS }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES4DAIRY }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES5NUTS }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES6SUG }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES7MEAT }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES8PUFA }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES9N3FAT }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES10SOD }}</td>
+                                    <td md-cell>{{ report[2].HES.biggestContributors.HES11ALCO }}</td>
+                                </tr>
+                                <tr md-row ng-repeat="report in reportsList | filter:search" ng-if="report[3].userid">
+                                    <td md-cell>{{ report[3].userid }}</td>
+                                    <td md-cell>{{ report[3].reportDate }}</td>
+                                    <td md-cell>{{ report[3].ffqID }}</td>
+                                    <td md-cell>{{ report[3].currentWeight }}</td>
+                                    <td md-cell>{{ report[3].HES.overallScore }}</td>
+                                    <td md-cell>{{ report[3].HES.lowest }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES1VEG }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES2FRUIT }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES3GRAINS }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES4DAIRY }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES5NUTS }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES6SUG }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES7MEAT }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES8PUFA }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES9N3FAT }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES10SOD }}</td>
+                                    <td md-cell>{{ report[3].HES.biggestContributors.HES11ALCO }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </div>
+                </md-tab>
+                <md-tab label="Baecke">
+                    <div class="md-padding">
+                        <md-toolbar class="md-table-toolbar md-default" ng-show=true>
+                            <div class="md-toolbar-tools">
+                                <md-icon>search</md-icon>
+                                <form flex name="filter.form">
+                                    <input type="text" ng-model="search.$" placeholder="search users">
+                                </form>
+                            </div>
+                        </md-toolbar>
+                        <md-table-container>
+                            <table md-table>
+                                <thead md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column><span>userID</span></th>
+                                    <th md-column><span>Date</span></th>
+                                    <th md-column><span>FFQ ID</span></th>
+                                    <th md-column><span>Weight</span></th>
+                                    <th md-column><span>Baecke</span></th>
+                                    <th md-column><span>Leisure</span></th>
+                                    <th md-column><span>Sports</span></th>
+                                    <th md-column><span>Work</span></th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <tr md-row ng-repeat="report in reportsList | filter:search">
+                                    <td md-cell>{{ report[1].userid }}</td>
+                                    <td md-cell>{{ report[1].reportDate }}</td>
+                                    <td md-cell>{{ report[1].ffqID }}</td>
+                                    <td md-cell>{{ report[1].currentWeight | number:1}}</td>
+                                    <td md-cell>{{ report[1].baecke.overall/15*100 | number:0 }}%</td>
+                                    <td md-cell>{{ report[1].baecke.leisure/5*100 | number:0 }}%</td>
+                                    <td md-cell>{{ report[1].baecke.sports/5*100 | number:0 }}%</td>
+                                    <td md-cell>{{ report[1].baecke.work/5*100 | number:0}}%</td>
+                                </tr>
+                                <tr md-row ng-repeat="report in reportsList | filter:search" ng-if="report[2].userid">
+                                    <td md-cell>{{ report[2].userid }}</td>
+                                    <td md-cell>{{ report[2].reportDate }}</td>
+                                    <td md-cell>{{ report[2].ffqID }}</td>
+                                    <td md-cell>{{ report[2].currentWeight }}</td>
+                                    <td md-cell>{{ report[2].baecke.overall/15*100 | number:0 }}%</td>
+                                    <td md-cell>{{ report[2].baecke.leisure/5*100 | number:0 }}%</td>
+                                    <td md-cell>{{ report[2].baecke.sports/5*100 | number:0 }}%</td>
+                                    <td md-cell>{{ report[2].baecke.work/5*100 | number:0}}%</td>
+                                </tr>
+                                <tr md-row ng-repeat="report in reportsList | filter:search" ng-if="report[3].userid">
+                                    <td md-cell>{{ report[3].userid }}</td>
+                                    <td md-cell>{{ report[3].reportDate }}</td>
+                                    <td md-cell>{{ report[3].ffqID }}</td>
+                                    <td md-cell>{{ report[3].currentWeight }}</td>
+                                    <td md-cell>{{ report[3].baecke.overall/15*100 | number:0}}%</td>
+                                    <td md-cell>{{ report[3].baecke.leisure/5*100 | number:0}}%</td>
+                                    <td md-cell>{{ report[3].baecke.sports/5*100 | number:0}}%</td>
+                                    <td md-cell>{{ report[3].baecke.work/5*100 | number:0}}%</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </div>
+                </md-tab>
+                <md-tab label="Nutrients">
+                    <div class="md-padding">
+                        <md-toolbar class="md-table-toolbar md-default" ng-show=true>
+                            <div class="md-toolbar-tools">
+                                <md-icon>search</md-icon>
+                                <form flex name="filter.form">
+                                    <input type="text" ng-model="search.$" placeholder="search users">
+                                </form>
+                            </div>
+                        </md-toolbar>
+                        <md-table-container>
+                            <table md-table>
+                                <thead md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column><span>userID</span></th>
+                                    <th md-column><span>Date</span></th>
+                                    <th md-column><span>FFQ ID</span></th>
+                                    <th md-column ng-repeat="nutrient in nutrientsList"><span>{{nutrient}}</span></th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <tr md-row ng-repeat="report in reportsList | filter:search">
+                                    <td md-cell>{{ report[1].userid }}</td>
+                                    <td md-cell>{{ report[1].reportDate }}</td>
+                                    <td md-cell>{{ report[1].ffqID }}</td>
+                                    <td md-cell ng-repeat="nutrient in nutrientsList">{{report[1].nutrients[nutrient]| number:3}}</td>
+                                </tr>
+                                <tr md-row ng-repeat="report in reportsList | filter:search" ng-if="report[2].userid">
+                                    <td md-cell>{{ report[2].userid }}</td>
+                                    <td md-cell>{{ report[2].reportDate }}</td>
+                                    <td md-cell>{{ report[2].ffqID }}</td>
+                                    <td md-cell ng-repeat="nutrient in nutrientsList">{{report[2].nutrients[nutrient]| number:3}}</td>
+                                </tr>
+                                <tr md-row ng-repeat="report in reportsList | filter:search" ng-if="report[3].userid">
+                                    <td md-cell>{{ report[3].userid }}</td>
+                                    <td md-cell>{{ report[3].reportDate }}</td>
+                                    <td md-cell>{{ report[3].ffqID }}</td>
+                                    <td md-cell ng-repeat="nutrient in nutrientsList">{{report[3].nutrients[nutrient]| number:3}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </div>
+                </md-tab>
+                <md-tab label="Export">
+                    <div class="md-padding">
+                        <md-button class="md-raised md-primary" ng-click="exportFFQResults()"> Export FFQ results </md-button>
+                        <md-button class="md-raised md-primary" ng-click="exportFFQInfo()"> Export FFQ info </md-button>
+                    </div>
+                </md-tab>
+                <md-tab label="Survey">
+                    <div class="md-padding">
+                        <md-toolbar class="md-table-toolbar md-default" ng-show=true>
+                            <div class="md-toolbar-tools">
+                                <md-icon>search</md-icon>
+                                <form flex name="filter.form">
+                                    <input type="text" ng-model="search.$" placeholder="search users">
+                                </form>
+                            </div>
+                        </md-toolbar>
+                        <md-table-container>
+                            <table md-table>
+                                <thead md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column><span>userID</span></th>
+                                    <th md-column><span>SUS</span></th>
+                                    <th md-column><span>Overall</span></th>
+                                    <th md-column><span>Difficulties?</span></th>
+                                    <th md-column><span>Description</span></th>
+                                    <th md-column><span>Q1</span></th>
+                                    <th md-column><span>Q2</span></th>
+                                    <th md-column><span>Q3</span></th>
+                                    <th md-column><span>Q4</span></th>
+                                    <th md-column><span>Q5</span></th>
+                                    <th md-column><span>Q6</span></th>
+                                    <th md-column><span>Q7</span></th>
+                                    <th md-column><span>Q8</span></th>
+                                    <th md-column><span>Q9</span></th>
+                                    <th md-column><span>Q10</span></th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <tr md-row ng-repeat="survey in surveyList | filter:search">
+                                    <td md-cell>{{ survey.userid }}</td>
+                                    <td md-cell>{{ survey.surveySUS}}</td>
+                                    <td md-cell>{{ survey[11].answer }}</td>
+                                    <td md-cell>{{ survey[12].answer }}</td>
+                                    <td md-cell>{{ survey[13].answer }}</td>
+                                    <td md-cell>{{ survey[1].answer }}</td>
+                                    <td md-cell>{{ survey[2].answer }}</td>
+                                    <td md-cell>{{ survey[3].answer }}</td>
+                                    <td md-cell>{{ survey[4].answer }}</td>
+                                    <td md-cell>{{ survey[5].answer }}</td>
+                                    <td md-cell>{{ survey[6].answer }}</td>
+                                    <td md-cell>{{ survey[7].answer }}</td>
+                                    <td md-cell>{{ survey[8].answer }}</td>
+                                    <td md-cell>{{ survey[9].answer }}</td>
+                                    <td md-cell>{{ survey[10].answer }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </div>
+                </md-tab>
+                <md-tab label="Feedback">
+                    <div class="md-padding">
+                        <md-toolbar class="md-table-toolbar md-default" ng-show=true>
+                            <div class="md-toolbar-tools">
+                                <md-icon>search</md-icon>
+                                <form flex name="filter.form">
+                                    <input type="text" ng-model="search.$" placeholder="search users">
+                                </form>
+                            </div>
+                        </md-toolbar>
+                        <md-table-container>
+                            <table md-table>
+                                <thead md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column><span>userID</span></th>
+                                    <th md-column><span>Date</span></th>
+                                    <th md-column><span>Difficulties</span></th>
+                                    <th md-column><span>Help</span></th>
+                                    <th md-column><span>Comments</span></th>
+                                    <th md-column><span>Q1</span></th>
+                                    <th md-column><span>Q2</span></th>
+                                    <th md-column><span>Q3</span></th>
+                                    <th md-column><span>Q4</span></th>
+                                    <th md-column><span>Q5</span></th>
+                                    <th md-column><span>Q6</span></th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <tr md-row ng-repeat="feedback in feedbackList | filter:search">
+                                    <td md-cell>{{ feedback.userid }}</td>
+                                    <td md-cell>{{ feedback.reportDate }}</td>
+                                    <td md-cell>{{ feedback[7].answer }}</td>
+                                    <td md-cell>{{ feedback[8].answer }}</td>
+                                    <td md-cell>{{ feedback[9].answer }}</td>
+                                    <td md-cell>{{ feedback[1].answer }}</td>
+                                    <td md-cell>{{ feedback[2].answer }}</td>
+                                    <td md-cell>{{ feedback[3].answer }}</td>
+                                    <td md-cell>{{ feedback[4].answer }}</td>
+                                    <td md-cell>{{ feedback[5].answer }}</td>
+                                    <td md-cell>{{ feedback[6].answer }}</td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                    </div>
+                </md-tab>
+            </md-tabs>
+        </md-card>
+    </md-content>
+</div>
+

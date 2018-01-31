@@ -1,0 +1,78 @@
+<md-dialog aria-label="Info Tab">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'INFO_TAB_INFO' | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="assets/svg/ic_clear_white_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width:800px;max-height:810px; ">
+            <md-tabs md-dynamic-height md-border-bottom>
+                <!--<md-tab label="{{'HELP_TAB_QUESTIONNAIRE' | translate}}">
+                    <md-content class="md-padding">
+                        <p>{{'HELP_TAB_QUESTIONNAIRE_TEXT' | translate}}</p>
+                    </md-content>
+                </md-tab>-->
+                <!--<md-tab label="{{'HELP_TAB_TIMELINE' | translate}}">
+                        <md-content class="md-padding">
+                            <img hide show-gt-xs src="assets/images/timeline_horizontal.png" align="middle">
+                            <img hide-gt-xs src="assets/images/timeline_vertical.png" align="middle">
+                            <p>{{'HELP_TAB_TIMELINE_TEXT' | translate}}</p>
+                        </md-content>
+                </md-tab>-->
+                <md-tab label="{{'INFO_TAB_INFO' | translate}}">
+                    <md-content class="md-padding">
+                        <p> <a href="assets/eatwelluk_infosheet.pdf" target="_blank"> {{'INFO_TAB_PIS' | translate}}</a> </p>
+                        <p> {{'HOME_ABOUT_DESCRIPTION_1' | translate}} </p>
+                        <p> {{'HOME_ABOUT_DESCRIPTION_2' | translate}} </p>
+                        <p> {{'HOME_ABOUT_DESCRIPTION_3' | translate}} </p>
+                        <p> {{'HOME_ABOUT_DESCRIPTION_4' | translate}} </p>
+                        <p> {{'HOME_ABOUT_DESCRIPTION_5' | translate}} </p>
+                    </md-content>
+                </md-tab>
+                <md-tab label="{{'CONSENT_HEADING' | translate}}">
+                   <md-content class="md-padding">
+                       <p> <a href="assets/eatwelluk_consent.pdf" target="_blank"> {{'INFO_TAB_CONSENT' | translate}}</a> </p>
+                       <p>{{'CONSENT_1' | translate}}</p>
+                       <p>{{'CONSENT_2' | translate}}</p>
+                       <p>{{'CONSENT_3' | translate}}</p>
+                       <p>{{'CONSENT_4' | translate}}</p>
+                       <p>{{'CONSENT_5' | translate}}</p>
+                       <p>{{'CONSENT_6' | translate}}</p>
+                   </md-content>
+               </md-tab>
+
+               <!-- <md-tab label="{{'HELP_TAB_TIMELINE' | translate}}">
+                        <md-content class="md-padding">
+                            <img hide show-gt-xs src="assets/images/timeline_horizontal.png" align="middle">
+                            <img hide-gt-xs src="assets/images/timeline_vertical.png" align="middle">
+                            <p>{{'HELP_TAB_TIMELINE_TEXT' | translate}}</p>
+                        </md-content>
+                </md-tab>-->
+                <md-tab label="{{'HELP_TAB_CONTACT' | translate}}">
+                    <md-content class="md-padding">
+                        <p>{{'HELP_TAB_CONTACT_TEXT' | translate}}</p>
+                        <md-card>
+                            <md-card-title>
+                                <md-card-title-text>
+                                    <span class="md-headline">Rodrigo Zenun Franco</span>
+                                    <span class="md-subhead" id="md-subhead-home">PhD Candidate</span>
+                                </md-card-title-text>
+                                <md-card-title-media>
+                                    <div class="md-media-md card-media"> <img src="assets/images/rodrigo.jpg" class="md-card-image"></div>
+                                </md-card-title-media>
+                            </md-card-title>
+                            <md-card-content>Research on "Intelligent Systems for personalised nutrition advice"</md-card-content>
+                        </md-card>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="answer('OK')" style="margin-right:20px;" md-autofocus>
+                OK
+            </md-button>
+        </md-dialog-actions>
+</md-dialog>

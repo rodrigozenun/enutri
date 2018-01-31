@@ -1,0 +1,41 @@
+<div ng-hide="loggedIn">
+    <md-content>
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">EatWellUK study</span>
+                    <span class="md-subhead" id="md-subhead-home" hide-gt-xs>University of Reading </span>
+                </md-card-title-text>
+                <md-card-title-media>
+                    <div class="md-media-sm card-media" show-xs hide-gt-xs> <img src="assets/images/uor-logo-shield.svg" class="md-card-image"></div>
+                    <div class="md-media card-media" hide-xs show-gt-xs> <img src="assets/images/uor-logo-small.png" class="md-card-image"></div>
+                </md-card-title-media>
+            </md-card-title>
+            <md-card-content>
+                <p> {{'HOME_ABOUT_DESCRIPTION_1' | translate}} </p>
+                <h4> {{'HOME_ABOUT_DESCRIPTION_2' | translate}} </h4>
+                <p> {{'HOME_ABOUT_DESCRIPTION_3' | translate}} </p>
+                <p> {{'HOME_ABOUT_DESCRIPTION_4' | translate}} </p>
+                <p> {{'HOME_ABOUT_DESCRIPTION_5' | translate}} </p>
+                </br>
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <md-button class="md-raised md-primary" ng-href="#/login">{{'HOME_VOLUNTEER' | translate}} </md-button>
+                </section>
+            </md-card-content>
+            </br>
+        </md-card>
+    </md-content>
+</div>
+
+<div ng-show="loggedIn">
+    <md-content layout-padding>
+        <md-card>
+            <h3 class="md-title">{{'HOME_WELCOME' | translate}}</h3>
+            <p> {{'HOME_WELCOME_DESCRIPTION' | translate}} </p>
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-button class="md-raised md-primary" ng-href="#/questionnaire"> {{'HOME_FFQ' | translate}} </md-button>
+            </section>
+            <br>
+        </md-card>
+    </md-content>
+</div>
