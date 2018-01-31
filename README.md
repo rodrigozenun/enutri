@@ -32,11 +32,11 @@ It can be deployed (hosting/database) via Google Cloud (Firebase) at no cost.
 </p>
 
 ### Publications
-Previous version of the app (describing the technologies)
-http://humanfactors.jmir.org/2017/2/e13/
+Previous version of the app (describing the technologies):
+- http://humanfactors.jmir.org/2017/2/e13/
 
-Version designed just before the EatWellUK study
-https://www.researchgate.net/publication/319276769_Online_Recommender_System_for_Personalized_Nutrition_Advice
+Version designed just before the EatWellUK study:
+- https://www.researchgate.net/publication/319276769_Online_Recommender_System_for_Personalized_Nutrition_Advice
 
 Version used in the EatWellUK study:
 (coming soon)
@@ -62,4 +62,5 @@ For more information about CNPq, please visit http://cnpq.br/
 
 ### License
 Source code (not related to the third-party packages) is available under the MIT license. For more information, please read the License file.
+- https://github.com/rodrigozenun/enutri/blob/master/LICENSE
 
