@@ -20,7 +20,7 @@ It can be deployed (hosting/database) via Google Cloud (Firebase) at no cost.
 </p>
 
 <p align="center">
-  <img src="https://github.com/rodrigozenun/enutri/blob/master/screenshots/ffq2.jpg">
+  <img width="384" height="512" src="https://github.com/rodrigozenun/enutri/blob/master/screenshots/ffq2.jpg">
 </p>
 
 <p align="center">
