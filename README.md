@@ -36,10 +36,10 @@ Previous version of the app (describing the technologies):
 - http://humanfactors.jmir.org/2017/2/e13/
 
 Version designed just before the EatWellUK study:
-- https://www.researchgate.net/publication/319276769_Online_Recommender_System_for_Personalized_Nutrition_Advice
+- https://dl.acm.org/doi/abs/10.1145/3109859.3109862
 
 Version used in the EatWellUK study:
-(coming soon)
+- https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0202006
 
 ### Limitations
 This repository does not contain:
