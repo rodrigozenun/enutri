@@ -10,6 +10,9 @@ Need help to use eNutri in your project? Please contact me:
 - https://www.researchgate.net/profile/Rodrigo_Zenun_Franco
 
 ### Documentation:
+
+(Public lecture (Youtube) explaining eNutri: https://bit.ly/2Wu8uUV)
+
 This is a Single Page Application (SPA) using AngularJS and Google Firebase (i.e. it does not require any server).
 It can be deployed (hosting/database) via Google Cloud (Firebase) at no cost.
 
